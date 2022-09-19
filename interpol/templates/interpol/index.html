@@ -1,0 +1,34 @@
+{% extends 'interpol/base.html' %}
+{% load static %}
+
+{% block languageSite %}en{% endblock %}
+
+{% block title %}INTERPOL{% endblock %}
+
+{% block languageEn %}{% url 'home' %}{% endblock %}
+{% block languageRu %}{% url 'ru/home' %}{% endblock %}
+
+{% block languageEnSidebar %}{% url 'home' %}{% endblock %}
+{% block languageRuSidebar %}{% url 'ru/home' %}{% endblock %}
+
+{% block content %}
+        <section class="container promo">
+            <h1>INTERPOL</h1>
+            <p>international organization that facilitates worldwide police cooperation and crime control.</p>
+            <a href="{% url 'en/about' %}">Learn more about us</a>
+        </section>
+        <section class="container">
+            <h2>Criminal databases</h2>
+            <p>We manage a range of databases containing information related to criminals and crimes.</p>
+            <p>The databases contain millions of records with information on individuals such as names and fingerprints; stolen property such as passports and vehicles; and weapons and threats such as firearms.</p>
+            <img src="{% static 'img/statistics.jpg' %}" alt="statistics">
+            <p>National police can search our databases in real time as part of their investigations. This can be done via their INTERPOL National Central Bureau, or directly at the frontline, for instance by specialized crime units and border officials.</p>
+            <p>Databases are accessed via <b>I-24/7</b>, our secure global police communications system. This is the technical network that links law enforcement in all member countries and enables authorized users to share sensitive and urgent police information with their counterparts around the globe.</p>
+        </section>
+        <section class="container">
+            <h2>Last news</h2>
+        </section>
+        <section class="container">
+            <h2>the most wanted persons</h2>
+        </section>
+{% endblock %}

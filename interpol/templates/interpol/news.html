@@ -1,0 +1,47 @@
+{% extends 'interpol/base.html' %}
+{% load static %}
+
+{% block languageSite %}en{% endblock %}
+
+{% block title %}INTERPOL{% endblock %}
+
+{% block languageEn %}{% url 'en/news' %}{% endblock %}
+{% block languageRu %}{% url 'ru/news' %}{% endblock %}
+
+{% block languageEnSidebar %}{% url 'en/news' %}{% endblock %}
+{% block languageRuSidebar %}{% url 'ru/news' %}{% endblock %}
+
+{% block content %}
+        <section class="container promo">
+            <h1>News</h1>
+        </section>
+        <section class="container">
+            <h2>The latest news from our global activities</h2>
+            <ul class="news">
+                <li class="news-item">
+                    <img src="{% static 'img/Mali.jpg' %}" alt="">
+                    <span>Arrests, thousands of seizures in African clampdown on firearms trafficking</span>
+                </li>
+                <li class="news-item">
+                    <img src="{% static 'img/YourAccountYourCrime.jpg' %}" alt="">
+                    <span>#YourAccountYourCrime: Global campaign exposes use of money mules</span>
+                </li>
+                <li class="news-item">
+                    <img src="{% static 'img/Pollution-crime-preview.png' %}" alt="">
+                    <span>Report: Pollution crime is highly profitable, organized and harming the planet</span>
+                </li>
+                <li class="news-item">
+                    <img src="{% static 'img/Preview.jpg' %}" alt="">
+                    <span>World Day against Trafficking in Persons: INTERPOL highlights coordinated efforts</span>
+                </li>
+                <li class="news-item">
+                    <img src="{% static 'img/Colombia.png' %}" alt="">
+                    <span>USD 11 million in illicit medicines seized in global INTERPOL operation</span>
+                </li>
+                <li class="news-item">
+                    <img src="{% static 'img/Morabito.jpeg' %}" alt="">
+                    <span>Fugitive mafia boss extradited from Brazil to Italy</span>
+                </li>
+            </ul>
+        </section>
+{% endblock %}

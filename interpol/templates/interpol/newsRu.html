@@ -1,0 +1,48 @@
+{% extends 'interpol/baseRu.html' %}
+{% load static %}
+
+{% block languageSite %}ru{% endblock %}
+
+{% block title %}ИНТЕРПОЛ{% endblock %}
+
+{% block languageEn %}{% url 'en/news' %}{% endblock %}
+{% block languageRu %}{% url 'ru/news' %}{% endblock %}
+
+{% block languageEnSidebar %}{% url 'en/news' %}{% endblock %}
+{% block languageRuSidebar %}{% url 'ru/news' %}{% endblock %}
+
+{% block content %}
+<section class="container promo">
+    <h1>НОВОСТИ</h1>
+</section>
+<section class="container">
+    <h2>Последние новости о нашей глобальной деятельности</h2>
+    <ul class="news">
+        <li class="news-item">
+            <img src="{% static 'img/Mali.jpg' %}" alt="">
+            <span>Аресты, тысячи изъятий в рамках борьбы с незаконным оборотом огнестрельного оружия в Африке</span>
+        </li>
+        <li class="news-item">
+            <img src="{% static 'img/YourAccountYourCrime.jpg' %}" alt="">
+            <span><i>#ВашАккаунтВашеПреступление</i>: Глобальная кампания разоблачает использование денежных мулов</span>
+        </li>
+        <li class="news-item">
+            <img src="{% static 'img/Pollution-crime-preview.png' %}" alt="">
+            <span>Отчет: Преступность, связанная с загрязнением окружающей среды, является высокорентабельной, организованной и наносит вред планете</span>
+        </li>
+        <li class="news-item">
+            <img src="{% static 'img/Preview.jpg' %}" alt="">
+            <span>Всемирный день борьбы с торговлей людьми: ИНТЕРПОЛ подчеркивает важность скоординированных усилий</span>
+        </li>
+        <li class="news-item">
+            <img src="{% static 'img/Colombia.png' %}" alt="">
+            <span>В ходе глобальной операции ИНТЕРПОЛА было изъято незаконных лекарств на сумму 11 миллионов долларов США</span>
+        </li>
+        <li class="news-item">
+            <img src="{% static 'img/Morabito.jpeg' %}" alt="">
+            <span>Беглый босс мафии экстрадирован из Бразилии в Италию</span>
+        </li>
+    </ul>
+</section>
+
+{% endblock %}
