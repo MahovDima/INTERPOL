@@ -73,14 +73,14 @@
         <div class="popup-sign signUp-popup">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">CLOSE</button>
-                <form action="#" method="post">
+                <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>SIGN UP</span>
                     <input type="text" name="name" placeholder="name" required>
                     <input type="text" name="surname" placeholder="surname" required>
                     <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="age" maxlength="3" required>
                     <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
-                    <input type="email" name="Email Address" placeholder="email" name="email" required>
+                    <input type="email" name="Email" placeholder="email" name="email" required>
                     <input type="text" placeholder="secret code">
                     <input type="text" name="username" placeholder="login" required>
                     <input type="password" name="password" placeholder="password" required>

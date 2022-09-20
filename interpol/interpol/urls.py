@@ -14,4 +14,5 @@ urlpatterns = [
     path('en/news/', views.newsView.as_view(), name="en/news"),
     path('ru/news/', views.newsRuView.as_view(), name="ru/news"),
     path('', include('django.contrib.auth.urls')),
+    path('register/', views.RegisterView.as_view(), name='register')
 ]

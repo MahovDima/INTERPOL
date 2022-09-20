@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 from .models import CustomUser
+from .forms import CustomUserCreationForm
 
 class indexView(TemplateView):
     template_name = 'interpol/index.html'
@@ -21,6 +22,6 @@ class newsRuView(TemplateView):
     template_name = 'interpol/newsRu.html'
 
 class RegisterView(CreateView):
+    form_class = CustomUserCreationForm
     template_name = 'interpol/index.html'
-    model = CustomUser
-    fields = ['name', 'surname', 'email', 'username', 'age', 'password']
+    field = ['name', 'surname', 'email', 'username', 'age', 'password']
