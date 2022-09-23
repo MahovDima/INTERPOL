@@ -530,6 +530,11 @@ header{
     width: 100px;
 }
 
+.profile .sign{
+    margin: auto;
+    flex-direction: column;
+}
+
 .sidebar{
     position: fixed;
     backdrop-filter: blur(20px);

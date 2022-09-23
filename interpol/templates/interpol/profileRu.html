@@ -1,4 +1,4 @@
-{% extends 'interpol/base.html' %}
+{% extends 'interpol/baseRu.html' %}
 {% load static %}
 
 {% block languageSite %}ru{% endblock %}
@@ -11,23 +11,36 @@
 {% block languageRuSidebar %}{% url 'ru/profile' %}{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <section class="container profile">
+<section class="container profile">
+        {% if user.is_authenticated %}
             <h1>Профиль пользователя</h1>
             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
             <p>Адрес электронной почты: <span>{{ user.email }}</span></p>
             <p>Возраст: <span>{{ user.age }}</span> years</p>
             <p>Группа: <span>{{ user.post }}</span></p>
             <a href="">Сменить пароль</a>
-            {% if user.post == 'Администратор' or user.post == 'Директор' %}
-                <h2>Генерация кодов для сотрудников</h2>
-
-            {% endif %}
-        </section>
-    {% else %}
-        <div class="sign">
-            <button onclick="openPopup(event)" class="signUp signButton">sign up</button>
-            <button onclick="openPopup(event)" class="signIn signButton">sign in</button>
-        </div>
-    {% endif %}
+            {% if user.post == 'Administrator' or user.post == 'Director' %}
+            <h2>Генератор кодов для сотрудников</h2>
+            <form action="{% url 'codeGenerate' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="codeCount">
+                <button type="submit"></button>
+            </form>
+            <table>
+                {% for codes in object_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ codes.code }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% else %}
+            <div class="sign">
+                <span>Вы не авторизированы</span>
+                <button onclick="openPopup(event)" class="signUp signButton">Регистрация</button>
+                <button onclick="openPopup(event)" class="signIn signButton">Вход</button>
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}

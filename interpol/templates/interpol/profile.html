@@ -11,8 +11,8 @@
 {% block languageRuSidebar %}{% url 'ru/profile' %}{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <section class="container profile">
+    <section class="container profile">
+        {% if user.is_authenticated %}
             <h1>User profile</h1>
             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
             <p>Email Address: <span>{{ user.email }}</span></p>
@@ -20,26 +20,27 @@
             <p>Group: <span>{{ user.post }}</span></p>
             <a href="">Change password</a>
             {% if user.post == 'Administrator' or user.post == 'Director' %}
-                <h2>Code generate for staff</h2>
-                <form action="{% url 'codeGenerate' %}" method="post">
-                    {% csrf_token %}
-                    <input type="text" name="codeCount">
-                    <button type="submit"></button>
-                </form>
-                <table>
-                    {% for codes in object_list %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ codes.code }}</td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            {% endif %}
-        </section>
-    {% else %}
-        <div class="sign">
-            <button onclick="openPopup(event)" class="signUp signButton">sign up</button>
-            <button onclick="openPopup(event)" class="signIn signButton">sign in</button>
-        </div>
-    {% endif %}
+            <h2>Code generate for staff</h2>
+            <form action="{% url 'codeGenerate' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="codeCount">
+                <button type="submit"></button>
+            </form>
+            <table>
+                {% for codes in object_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ codes.code }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        {% else %}
+            <div class="sign">
+                <span>You're not logged in</span>
+                <button onclick="openPopup(event)" class="signUp signButton">sign up</button>
+                <button onclick="openPopup(event)" class="signIn signButton">sign in</button>
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}

@@ -38,9 +38,9 @@
             </ul>
             {% if user.is_authenticated %}
                 <span class="user">
-                    <p>Привет, <button onclick="userMenuOpener()">{{ user.name }}</button></p>
+                    <p>Привет, <button onclick="userMenuOpener()">{{ user.first_name }}</button></p>
                     <ul>
-                        <li style="--i : 1;"><a href="#">Аккаунт</a></li>
+                        <li style="--i : 1;"><a href="{% url 'ru/profile' %}">Аккаунт</a></li>
                         <li style="--i : 2;"><a href="{% url 'logout' %}">Выйти</a></li>
 
                     </ul>
@@ -49,9 +49,6 @@
                 <div class="sign">
                     <button onclick="openPopup(event)" class="signUp signButton">Регистрация</button>
                     <button onclick="openPopup(event)" class="signIn signButton">Вход</button>
-                </div>
-                <div onclick="openSidebar()" class="menu">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 384.97 384.97" style="enable-background:new 0 0 384.97 384.97;" xml:space="preserve"><g><g id="Menu"><path d="M12.03,84.212h360.909c6.641,0,12.03-5.39,12.03-12.03c0-6.641-5.39-12.03-12.03-12.03H12.03	C5.39,60.152,0,65.541,0,72.182C0,78.823,5.39,84.212,12.03,84.212z"/> <path d="M372.939,180.455H12.03c-6.641,0-12.03,5.39-12.03,12.03s5.39,12.03,12.03,12.03h360.909c6.641,0,12.03-5.39,12.03-12.03 S379.58,180.455,372.939,180.455z"/>	<path d="M372.939,300.758H12.03c-6.641,0-12.03,5.39-12.03,12.03c0,6.641,5.39,12.03,12.03,12.03h360.909			c6.641,0,12.03-5.39,12.03-12.03C384.97,306.147,379.58,300.758,372.939,300.758z"/>	</g>	<g>	</g>	<g>	</g>	<g>	</g>	<g>	</g>	<g>	</g>	<g>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
                 </div>
             {% endif %}
             <div onclick="openSidebar()" class="menu">
@@ -77,19 +74,20 @@
         <div class="popup-sign signUp-popup">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">CLOSE</button>
-                <form action="{% url 'register' %}" method="post">
+                <form  action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>Регистрация</span>
                     <input type="text" name="first_name" placeholder="Имя" required>
                     <input type="text" name="last_name" placeholder="Фамилия" required>
                     <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="Возраст" maxlength="3" required>
-                    <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age">
+                    <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
                     <input type="email" name="email" placeholder="email" name="email" required>
                     <input type="text" name="secret code" placeholder="Секретный код(не обязательно)">
                     <input type="text" name="username" placeholder="Логин" required>
-                    <input type="password" name="password1" placeholder="Пароль" required>
-                    <input type="password" name="password2" placeholder="Повторите пароль" required>
-                    <button class="submit" type="submit">Зарегистрироваться</button>
+                    <input type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="Пароль" required>
+                    <input type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="Повторите пароль" required>
+                    <button class="submit" onclick="signup(this)" type="button">Sign up</button>
+                    <p></p>
                 </form>
             </div>
         </div>
@@ -122,9 +120,9 @@
                 </ul>
                 {% if user.is_authenticated %}
                     <span class="user">
-                        <p>Привет, <button onclick="userMenuOpener()">{{ user.name }}</button></p>
+                        <p>Привет, <button onclick="userMenuOpener()">{{ user.first_name }}</button></p>
                         <ul>
-                            <li style="--i : 2;"><a href="#">Аккаунт</a></li>
+                            <li style="--i : 2;"><a href="{% url 'ru/profile' %}">Аккаунт</a></li>
                             <li style="--i : 1;"><a href="{% url 'logout' %}">Выйти</a></li>
 
                         </ul>

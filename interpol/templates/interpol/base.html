@@ -119,9 +119,9 @@
                 </ul>
                 {% if user.is_authenticated %}
                     <span class="user">
-                        <p>Hello, <button onclick="userMenuOpener()">{{ user.name }}</button></p>
+                        <p>Hello, <button onclick="userMenuOpener()">{{ user.first_name }}</button></p>
                         <ul>
-                            <li style="--i : 1;"><a href="#">Account</a></li>
+                            <li style="--i : 1;"><a href="{% url 'en/profile' %}">Account</a></li>
                             <li style="--i : 2;"><a href="{% url 'logout' %}">Log Out</a></li>
 
                         </ul>
