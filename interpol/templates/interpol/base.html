@@ -38,7 +38,7 @@
             </ul>
             {% if user.is_authenticated %}
                 <span class="user">
-                    <p>Hello, <button onclick="userMenuOpener()">{{ user.name }}</button></p>
+                    <p>Hello, <button onclick="userMenuOpener()">{{ user.first_name }}</button></p>
                     <ul>
                         <li style="--i : 2;"><a href="#">Account</a></li>
                         <li style="--i : 1;"><a href="{% url 'logout' %}">Log Out</a></li>
@@ -76,15 +76,15 @@
                 <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>SIGN UP</span>
-                    <input type="text" name="name" placeholder="name" required>
-                    <input type="text" name="surname" placeholder="surname" required>
+                    <input type="text" name="first_name" placeholder="name" required>
+                    <input type="text" name="last_name" placeholder="surname" required>
                     <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="age" maxlength="3" required>
                     <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
-                    <input type="email" name="Email" placeholder="email" name="email" required>
+                    <input type="email" name="email" placeholder="email" name="email" required>
                     <input type="text" placeholder="secret code">
                     <input type="text" name="username" placeholder="login" required>
-                    <input type="password" name="password" placeholder="password" required>
-                    <input type="password" placeholder="repeat-password" required>
+                    <input type="password" name="password1" placeholder="password" required>
+                    <input type="password" placeholder="password2" required>
                     <button class="submit" type="submit">Sign up</button>
                 </form>
             </div>
