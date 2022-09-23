@@ -77,18 +77,18 @@
         <div class="popup-sign signUp-popup">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">CLOSE</button>
-                <form action="#" method="post">
+                <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>Регистрация</span>
-                    <input type="text" placeholder="Имя" required>
-                    <input type="text" placeholder="Фамилия" required>
-                    <input type="text" onchange="rangeChanger(this.value)" id="age" placeholder="Возраст" maxlength="3" required>
+                    <input type="text" name="first_name" placeholder="Имя" required>
+                    <input type="text" name="last_name" placeholder="Фамилия" required>
+                    <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="Возраст" maxlength="3" required>
                     <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age">
-                    <input type="email" placeholder="email" name="email" required>
-                    <input type="text" placeholder="Секретный код(не обязательно)">
-                    <input type="text" placeholder="Логин" required>
-                    <input type="password" placeholder="Пароль" required>
-                    <input type="password" placeholder="Повторите пароль" required>
+                    <input type="email" name="email" placeholder="email" name="email" required>
+                    <input type="text" name="secret code" placeholder="Секретный код(не обязательно)">
+                    <input type="text" name="username" placeholder="Логин" required>
+                    <input type="password" name="password1" placeholder="Пароль" required>
+                    <input type="password" name="password2" placeholder="Повторите пароль" required>
                     <button class="submit" type="submit">Зарегистрироваться</button>
                 </form>
             </div>

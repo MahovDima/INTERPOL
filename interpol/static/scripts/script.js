@@ -6,6 +6,7 @@ const sidebar = document.querySelector('.sidebar');
 const age = document.getElementById('age');
 const range = document.getElementById('range');
 const userMenu = document.querySelectorAll('.user ul');
+const messageBox = document.querySelector('.message-box');
 
 const ageChanger = (value) =>{
     age.value = value;
@@ -40,6 +41,10 @@ const closePopup = () =>{
         pop.classList.remove('shown');
     });
     body.style.position = 'relative';
+}
+
+const closeMessage = () =>{
+    messageBox.classList.toggle('hidden');
 }
 
 const openSidebar = () =>{

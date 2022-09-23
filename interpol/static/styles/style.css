@@ -448,7 +448,7 @@ header{
     width: 60%;
 }
 
-.popup-content .close-button{
+.close-button{
     cursor: pointer;
     position: absolute;
 
@@ -495,6 +495,37 @@ header{
 
 .popup-content form input:not(:placeholder-shown) ~ .submit{
     opacity: 1;
+}
+
+.message-box{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    width: 300px;
+    height: 100px;
+    background-color: rgba(255,255,255,.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px black solid;
+    padding: 10px;
+}
+
+.message-box.hidden{
+    display: none;
+}
+
+.message-box .close-button{
+    right: 10px;
+    top: 10px;
+    font-size: 14px;
+}
+
+.message-box span{
+    font-weight: bold;
+}
+
+.message-box p{
+    font-size: 15px;
 }
 
 .sidebar{

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include,re_path
 from pages import views
 
 urlpatterns = [
@@ -14,5 +14,6 @@ urlpatterns = [
     path('en/news/', views.newsView.as_view(), name="en/news"),
     path('ru/news/', views.newsRuView.as_view(), name="ru/news"),
     path('', include('django.contrib.auth.urls')),
-    path('register/', views.RegisterView.as_view(), name='register')
+    path('register/', views.RegisterView.as_view(), name='register'),
+    re_path(r'$error/', views.ErrorView.as_view(), name='error')
 ]

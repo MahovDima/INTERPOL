@@ -73,7 +73,7 @@
         <div class="popup-sign signUp-popup">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">CLOSE</button>
-                <form action="{% url 'register' %}" method="post">
+                <form {% if password1 == password2 %} action="{% url 'register' %} " {% else %} action="#" {% endif %} method="post">
                     {% csrf_token %}
                     <span>SIGN UP</span>
                     <input type="text" name="first_name" placeholder="name" required>
@@ -81,10 +81,10 @@
                     <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="age" maxlength="3" required>
                     <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
                     <input type="email" name="email" placeholder="email" name="email" required>
-                    <input type="text" placeholder="secret code">
+                    <input type="text" name="secret code" placeholder="secret code(not necessary)">
                     <input type="text" name="username" placeholder="login" required>
                     <input type="password" name="password1" placeholder="password" required>
-                    <input type="password" placeholder="password2" required>
+                    <input type="password" name="password2" placeholder="password-repeat" required>
                     <button class="submit" type="submit">Sign up</button>
                 </form>
             </div>
