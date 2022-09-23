@@ -1,0 +1,33 @@
+{% extends 'interpol/base.html' %}
+{% load static %}
+
+{% block languageSite %}ru{% endblock %}
+{% block title %}ПРОФИЛЬ{% endblock %}
+
+{% block languageEn %}{% url 'en/profile' %}{% endblock %}
+{% block languageRu %}{% url 'ru/profile' %}{% endblock %}
+
+{% block languageEnSidebar %}{% url 'en/profile' %}{% endblock %}
+{% block languageRuSidebar %}{% url 'ru/profile' %}{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <section class="container profile">
+            <h1>Профиль пользователя</h1>
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+            <p>Адрес электронной почты: <span>{{ user.email }}</span></p>
+            <p>Возраст: <span>{{ user.age }}</span> years</p>
+            <p>Группа: <span>{{ user.post }}</span></p>
+            <a href="">Сменить пароль</a>
+            {% if user.post == 'Администратор' or user.post == 'Директор' %}
+                <h2>Генерация кодов для сотрудников</h2>
+
+            {% endif %}
+        </section>
+    {% else %}
+        <div class="sign">
+            <button onclick="openPopup(event)" class="signUp signButton">sign up</button>
+            <button onclick="openPopup(event)" class="signIn signButton">sign in</button>
+        </div>
+    {% endif %}
+{% endblock %}

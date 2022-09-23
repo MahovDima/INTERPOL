@@ -13,7 +13,13 @@ urlpatterns = [
 
     path('en/news/', views.newsView.as_view(), name="en/news"),
     path('ru/news/', views.newsRuView.as_view(), name="ru/news"),
+
+    path('en/profile/', views.profileView.as_view(), name='en/profile'),
+    path('ru/profile/', views.profileRuView.as_view(), name='ru/profile'),
+
+    re_path(r'^codeGenerate/', views.SecretCodesView.as_view(), name='codeGenerate'),
+
     path('', include('django.contrib.auth.urls')),
     path('register/', views.RegisterView.as_view(), name='register'),
-    re_path(r'$error/', views.ErrorView.as_view(), name='error')
+    #re_path(r'$error/', views.ErrorView.as_view(), name='error')
 ]

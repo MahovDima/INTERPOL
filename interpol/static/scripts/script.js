@@ -7,6 +7,9 @@ const age = document.getElementById('age');
 const range = document.getElementById('range');
 const userMenu = document.querySelectorAll('.user ul');
 const messageBox = document.querySelector('.message-box');
+let password1 = document.getElementById('signup_password1')
+let password2 = document.getElementById('signup_password2')
+
 
 const ageChanger = (value) =>{
     age.value = value;
@@ -43,8 +46,21 @@ const closePopup = () =>{
     body.style.position = 'relative';
 }
 
-const closeMessage = () =>{
-    messageBox.classList.toggle('hidden');
+validationReset = () =>{
+    password1.classList.remove('wrong')
+    password2.classList.remove('wrong')
+    document.querySelector('.signUp-popup form p').textContent = '';
+}
+
+const signup = (btn) =>{
+    if(password1.value != password2.value){
+        document.querySelector('.signUp-popup form p').textContent = 'Пароли не совпадают';
+        password1.classList.add('wrong')
+        password2.classList.add('wrong')
+    }
+    else{
+        btn.parentNode.submit()
+    }
 }
 
 const openSidebar = () =>{

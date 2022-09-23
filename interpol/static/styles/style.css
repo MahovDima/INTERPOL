@@ -497,35 +497,37 @@ header{
     opacity: 1;
 }
 
-.message-box{
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    width: 300px;
-    height: 100px;
-    background-color: rgba(255,255,255,.7);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px black solid;
-    padding: 10px;
+.popup-content form p{
+    color: red;
+    text-align: center;
 }
 
-.message-box.hidden{
-    display: none;
+.popup-content form input.wrong{
+    color: red;
+    border-bottom: 1px solid red;
 }
 
-.message-box .close-button{
-    right: 10px;
-    top: 10px;
-    font-size: 14px;
+.profile h1{
+    font-size: 52px;
+    margin-bottom: 30px;
 }
 
-.message-box span{
-    font-weight: bold;
+.profile h2::before{
+    content: '';
+    margin-right: 0;
 }
 
-.message-box p{
-    font-size: 15px;
+.profile p{
+    margin: 0 0 10px 20px;
+}
+
+.profile table{
+    border: 1px solid #00467F;
+}
+
+.profile table td:first-child{
+    border-right: 1px solid #00467F;
+    width: 100px;
 }
 
 .sidebar{

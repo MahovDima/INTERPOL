@@ -40,7 +40,7 @@
                 <span class="user">
                     <p>Hello, <button onclick="userMenuOpener()">{{ user.first_name }}</button></p>
                     <ul>
-                        <li style="--i : 2;"><a href="#">Account</a></li>
+                        <li style="--i : 2;"><a href="{% url 'en/profile' %}">Account</a></li>
                         <li style="--i : 1;"><a href="{% url 'logout' %}">Log Out</a></li>
                     </ul>
                 </span>
@@ -73,7 +73,7 @@
         <div class="popup-sign signUp-popup">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">CLOSE</button>
-                <form {% if password1 == password2 %} action="{% url 'register' %} " {% else %} action="#" {% endif %} method="post">
+                <form  action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>SIGN UP</span>
                     <input type="text" name="first_name" placeholder="name" required>
@@ -83,9 +83,10 @@
                     <input type="email" name="email" placeholder="email" name="email" required>
                     <input type="text" name="secret code" placeholder="secret code(not necessary)">
                     <input type="text" name="username" placeholder="login" required>
-                    <input type="password" name="password1" placeholder="password" required>
-                    <input type="password" name="password2" placeholder="password-repeat" required>
-                    <button class="submit" type="submit">Sign up</button>
+                    <input type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="password" required>
+                    <input type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="password-repeat" required>
+                    <button class="submit" onclick="signup(this)" type="button">Sign up</button>
+                    <p></p>
                 </form>
             </div>
         </div>

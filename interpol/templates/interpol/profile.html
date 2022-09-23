@@ -1,0 +1,45 @@
+{% extends 'interpol/base.html' %}
+{% load static %}
+
+{% block languageSite %}en{% endblock %}
+{% block title %}PROFILE{% endblock %}
+
+{% block languageEn %}{% url 'en/profile' %}{% endblock %}
+{% block languageRu %}{% url 'ru/profile' %}{% endblock %}
+
+{% block languageEnSidebar %}{% url 'en/profile' %}{% endblock %}
+{% block languageRuSidebar %}{% url 'ru/profile' %}{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <section class="container profile">
+            <h1>User profile</h1>
+            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+            <p>Email Address: <span>{{ user.email }}</span></p>
+            <p>Age: <span>{{ user.age }}</span> years</p>
+            <p>Group: <span>{{ user.post }}</span></p>
+            <a href="">Change password</a>
+            {% if user.post == 'Administrator' or user.post == 'Director' %}
+                <h2>Code generate for staff</h2>
+                <form action="{% url 'codeGenerate' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="codeCount">
+                    <button type="submit"></button>
+                </form>
+                <table>
+                    {% for codes in object_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ codes.code }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </section>
+    {% else %}
+        <div class="sign">
+            <button onclick="openPopup(event)" class="signUp signButton">sign up</button>
+            <button onclick="openPopup(event)" class="signIn signButton">sign in</button>
+        </div>
+    {% endif %}
+{% endblock %}

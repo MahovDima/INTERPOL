@@ -4,4 +4,7 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(default=10)
-    post = models.TextField()
+    post = models.TextField(default='User')
+
+class SecretCodes(models.Model):
+    code = models.TextField()
