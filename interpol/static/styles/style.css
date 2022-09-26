@@ -509,8 +509,34 @@ header{
 
 .profile h1{
     font-size: 52px;
-    margin-bottom: 30px;
 }
+
+.profile h2{
+    margin-top: 30px;
+}
+
+.profile a {
+    position: relative;
+    color: #e7581a;
+    width: 146px;
+}
+
+.profile a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: right;
+    border-bottom: 2px solid #e7581a;
+    transition: transform .15s ease-in;
+}
+
+.profile a:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
 
 .profile h2::before{
     content: '';
@@ -522,7 +548,35 @@ header{
 }
 
 .profile table{
+    margin-top: 20px;
+    border-bottom: none;
+}
+
+.profile input{
+    border: none;
+    padding: 10px 20px;
+    width: 100px;
+    border-bottom: 1px solid #00467F;
+    outline: none;
+}
+
+.profile button{
+    cursor: pointer;
+    background-color: transparent;
+    padding: 10px 20px;
+    outline: none;
     border: 1px solid #00467F;
+    transition: .3s;
+}
+
+.profile button:hover{
+    color: white;
+    background-color: #00467F;
+}
+
+.profile table td{
+border-bottom: 1px solid #00467F;
+    padding: 5px;
 }
 
 .profile table td:first-child{

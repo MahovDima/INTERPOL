@@ -23,8 +23,8 @@
             <h2>Code generate for staff</h2>
             <form action="{% url 'codeGenerate' %}" method="post">
                 {% csrf_token %}
-                <input type="text" name="codeCount">
-                <button type="submit"></button>
+                <input type="text" name="codeCount" autocomplete="off">
+                <button type="submit">Сгенерировать</button>
             </form>
             <table>
                 {% for codes in object_list %}
