@@ -1,0 +1,56 @@
+{% extends 'interpol/baseRu.html' %}
+{% load static %}
+
+{% block languageSite %}ru{% endblock %}
+{% block title %}Разыскиваемые лица{% endblock %}
+
+{% block languageEn %}{% url 'en/wanted' %}{% endblock %}
+{% block languageRu %}{% url 'ru/wanted' %}{% endblock %}
+
+{% block languageEnSidebar %}{% url 'en/wanted' %}{% endblock %}
+{% block languageRuSidebar %}{% url 'ru/wanted' %}{% endblock %}
+{% block content %}
+    <section class="container promo">
+        <h1>Разыскиваемые лица</h1>
+    </section>
+    <div class="container wanted">
+        {% if user.post == 'Administrator' or user.post == 'Director' %}
+        <h2>Заявки на поиск людей</h2>
+        <a href="{% url 'ru/request' %}" type="button">Посмотреть заявки на розыск</a>
+        {% elif user.post == 'User' %}
+        <h2>Вы можете подать заявку на розыск человека а ИНТЕРПОЛ поможет вам в этом</h2>
+        <button onclick="wantedAdd(event)" class="wanted-add" type="button">Подать заявку</button>
+        <form action="{% url 'wanted' %}" method="post" class="wanted-add-content" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="ФИО">
+            <input type="text" name="age" placeholder="Примерный возраст">
+            <input type="text" name="briefInfo" placeholder="Краткая информация">
+            <label for="photo"><?xml version="1.0" ?><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><title/><g data-name="Layer 2" id="Layer_2"><path d="M29,8H26V5a1,1,0,0,0-1-1H3A1,1,0,0,0,2,5V23a1,1,0,0,0,1,1H6v3a1,1,0,0,0,1,1H29a1,1,0,0,0,1-1V9A1,1,0,0,0,29,8ZM4,22V6H24V8H7A1,1,0,0,0,6,9V22Zm8-10a2,2,0,1,1-2,2A2,2,0,0,1,12,12ZM25.89,23.46A1,1,0,0,1,25,24H11a1,1,0,0,1-.89-.55,1,1,0,0,1,.09-1.05l3-4a1,1,0,0,1,1.25-.29l1.35.67,3.49-3.49a1,1,0,0,1,.79-.29,1,1,0,0,1,.73.42l5,7A1,1,0,0,1,25.89,23.46Z"/></g></svg>
+                Добавить фото</label>
+            <input id="photo" name="photo" accept="image/*" type="file">
+            <textarea type="text" name="detailInfo" placeholder="Подробное описание"></textarea>
+            <button type="submit">Отправить заявку</button>
+        </form>
+        {% endif %}
+        <h2>Список разыскиваемых лиц</h2>
+        <ul class="wanted-items">
+            {% for wanted in object_list %}
+            {% if wanted.isPublished %}
+            <li class="wanted-item">
+                <div class="wanted-content">
+                    <button class="close-button" onclick="closeWantedPopup(event)">CLOSE</button>
+                    <div class="img">
+                        {% if wanted.photo %}
+                        <img src="{{ wanted.photo.url }}" alt="andrey">
+                        {% endif %}
+                    </div>
+                    <span>{{ wanted.name }} | {{ wanted.age }}</span>
+                    <p class="short-description">{{ wanted.briefInfo }} </p>
+                    <p>{{ wanted.detailInfo }}</p>
+                </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

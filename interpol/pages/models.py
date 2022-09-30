@@ -8,3 +8,17 @@ class CustomUser(AbstractUser):
 
 class SecretCodes(models.Model):
     code = models.TextField()
+    def __str__(self):
+        return self.code
+
+class WantedPersons(models.Model):
+    name = models.TextField()
+    age = models.TextField()
+    briefInfo = models.TextField()
+    photo = models.ImageField(upload_to='wanted/', default=None)
+    detailInfo = models.TextField()
+    isPublished = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+

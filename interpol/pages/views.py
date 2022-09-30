@@ -1,8 +1,9 @@
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
-from .models import CustomUser, SecretCodes
+from django.views.generic.edit import ModelFormMixin
+from .models import CustomUser, SecretCodes, WantedPersons
 from django.contrib.auth import authenticate
 from django import forms
 from .forms import CustomUserCreationForm
@@ -35,8 +36,67 @@ class profileRuView(ListView):
     template_name = 'interpol/profileRu.html'
     model = SecretCodes
 
+class wantedView(ListView):
+    model = WantedPersons
+    template_name = 'interpol/wanted.html'
+
+class wantedRuView(ListView):
+    model = WantedPersons
+    template_name = 'interpol/wantedRu.html'
+
+class requestView(ListView):
+    model = WantedPersons
+    template_name = 'interpol/request.html'
+
+class requestRuView(ListView):
+    model = WantedPersons
+    template_name = 'interpol/requestRu.html'
+
+def updateRequest(request,pk):
+    requestPerson = WantedPersons.objects.get(pk=pk)
+    requestPerson.isPublished = True
+    requestPerson.save()
+    return HttpResponseRedirect(reverse_lazy('en/request'))
+
+def deleteRequest(request,pk):
+    requestPerson = WantedPersons.objects.get(pk=pk)
+    requestPerson.delete()
+    return HttpResponseRedirect(reverse_lazy('en/request'))
+
+class editRequest(UpdateView):
+    model = WantedPersons
+    fields = ['name', 'age', 'briefInfo', 'detailInfo']
+    template_name = 'interpol/request_edit.html'
+    success_url = reverse_lazy('en/request')
+
+    def post(self, request, *args, **kwargs):
+        person = WantedPersons.objects.get(pk=self.kwargs.get('pk'))
+        person.name = request.POST.get('name')
+        person.age = request.POST.get('age')
+        person.briefInfo = request.POST.get('briefInfo')
+        person.detailInfo = request.POST.get('detailInfo')
+        person.save()
+        return HttpResponseRedirect(reverse_lazy('en/request'))
+
+
+
+
+class WantedPersonsView(CreateView):
+    def post(self, request, *args, **kwargs):
+        person = WantedPersons()
+        person.name = request.POST.get('name')
+        person.age = request.POST.get('age')
+        person.briefInfo = request.POST.get('briefInfo')
+        if 'photo' in request.FILES:
+            person.photo = request.FILES['photo']
+        person.detailInfo = request.POST.get('detailInfo')
+        person.save()
+        return HttpResponseRedirect(reverse_lazy('en/wanted'))
+
 class SecretCodesView(CreateView):
     def post(self, request, *args, **kwargs):
+        if request.POST.get('codeCount') == '':
+            return HttpResponseRedirect(reverse_lazy('en/profile'))
         count = int(request.POST.get('codeCount'))
         chars = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
         for c in range(count):

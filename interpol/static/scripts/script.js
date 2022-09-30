@@ -7,9 +7,10 @@ const age = document.getElementById('age');
 const range = document.getElementById('range');
 const userMenu = document.querySelectorAll('.user ul');
 const messageBox = document.querySelector('.message-box');
-let password1 = document.getElementById('signup_password1')
-let password2 = document.getElementById('signup_password2')
-
+const password1 = document.getElementById('signup_password1');
+const password2 = document.getElementById('signup_password2');
+const wantedList = document.querySelectorAll('.wanted-item');
+const wantedAddForm = document.querySelector('.wanted-add-content');
 
 const ageChanger = (value) =>{
     age.value = value;
@@ -61,6 +62,23 @@ const signup = (btn) =>{
     else{
         btn.parentNode.submit()
     }
+}
+
+wantedList.forEach(wanted => {
+    wanted.addEventListener('click', (evt)=>{
+        if(!evt.target.classList.contains('close-button')){
+            wanted.classList.add('popup')
+        }
+    })
+});
+
+const wantedAdd = (evt) =>{
+        evt.target.classList.toggle('shown');
+        wantedAddForm.classList.toggle('shown');
+}
+
+const closeWantedPopup = (evt) =>{
+    evt.target.parentNode.parentNode.classList.remove('popup')
 }
 
 const openSidebar = () =>{

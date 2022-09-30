@@ -1,0 +1,43 @@
+{% extends 'interpol/baseRu.html' %}
+{% load static %}
+
+{% block languageSite %}ru{% endblock %}
+{% block title %}Заявки на розыск{% endblock %}
+
+{% block languageEn %}{% url 'en/request' %}{% endblock %}
+{% block languageRu %}{% url 'ru/request' %}{% endblock %}
+
+{% block languageEnSidebar %}{% url 'en/request' %}{% endblock %}
+{% block languageRuSidebar %}{% url 'ru/request' %}{% endblock %}
+{% block content %}
+    {% if user.post == 'Administrator' or user.post == 'Director' %}
+    <section class="container promo">
+        <h1>Заявки на розыск</h1>
+    </section>
+    <div class="container wanted requests">
+        <h2>Список заявок</h2>
+        <ul class="wanted-items">
+            {% for wanted in object_list %}
+            {% if not wanted.isPublished %}
+            <li class="wanted-item">
+                <div class="wanted-content">
+                    <button class="close-button" onclick="closeWantedPopup(event)">CLOSE</button>
+                    <div class="img">
+                        {% if wanted.photo %}
+                        <img src="{{ wanted.photo.url }}" alt="andrey">
+                        {% endif %}
+                    </div>
+                    <span>{{ wanted.name }} | {{ wanted.age }}</span>
+                    <p class="short-description">{{ wanted.briefInfo }} </p>
+                    <p>{{ wanted.detailInfo }}</p>
+                    <div class="submit-buttons">
+                        <a href="{% url 'request_add' wanted.pk %}">Submit</a> | <a href="{% url 'request_edit' wanted.pk %}">Edit</a> | <a href="{% url 'request_delete' wanted.pk %}">Reject</a>
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -2,14 +2,13 @@
 {% load static %}
 
 {% block languageSite %}en{% endblock %}
-{% block title %}PROFILE{% endblock %}
+{% block title %}Profile{% endblock %}
 
 {% block languageEn %}{% url 'en/profile' %}{% endblock %}
 {% block languageRu %}{% url 'ru/profile' %}{% endblock %}
 
 {% block languageEnSidebar %}{% url 'en/profile' %}{% endblock %}
 {% block languageRuSidebar %}{% url 'ru/profile' %}{% endblock %}
-
 {% block content %}
     <section class="container profile">
         {% if user.is_authenticated %}
@@ -18,13 +17,13 @@
             <p>Email Address: <span>{{ user.email }}</span></p>
             <p>Age: <span>{{ user.age }}</span> years</p>
             <p>Group: <span>{{ user.post }}</span></p>
-            <a href="">Change password</a>
+            <a href="{% url 'password_change' %}">Change password</a>
             {% if user.post == 'Administrator' or user.post == 'Director' %}
             <h2>Code generate for staff</h2>
             <form action="{% url 'codeGenerate' %}" method="post">
                 {% csrf_token %}
                 <input type="text" name="codeCount" autocomplete="off">
-                <button type="submit">Сгенерировать</button>
+                <button type="submit">Generate</button>
             </form>
             <table>
                 {% for codes in object_list %}

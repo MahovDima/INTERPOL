@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block languageSite %}ru{% endblock %}
-{% block title %}ПРОФИЛЬ{% endblock %}
+{% block title %}Профиль{% endblock %}
 
 {% block languageEn %}{% url 'en/profile' %}{% endblock %}
 {% block languageRu %}{% url 'ru/profile' %}{% endblock %}
@@ -18,13 +18,13 @@
             <p>Адрес электронной почты: <span>{{ user.email }}</span></p>
             <p>Возраст: <span>{{ user.age }}</span> years</p>
             <p>Группа: <span>{{ user.post }}</span></p>
-            <a href="">Сменить пароль</a>
+            <a href="{% url 'password_change' %}">Сменить пароль</a>
             {% if user.post == 'Administrator' or user.post == 'Director' %}
             <h2>Генератор кодов для сотрудников</h2>
             <form action="{% url 'codeGenerate' %}" method="post">
                 {% csrf_token %}
                 <input type="text" name="codeCount">
-                <button type="submit"></button>
+                <button type="submit">Сгенерировать</button>
             </form>
             <table>
                 {% for codes in object_list %}

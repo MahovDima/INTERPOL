@@ -128,3 +128,6 @@ AUTH_USER_MODEL = 'pages.CustomUser'
 
 LOGIN_REDIRECT_URL = ".."
 LOGOUT_REDIRECT_URL = ".."
+
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = BASE_DIR / 'uploads'

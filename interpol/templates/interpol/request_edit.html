@@ -1,0 +1,23 @@
+{% extends 'interpol/base.html' %}
+{% load static %}
+
+{% block languageSite %}en{% endblock %}
+{% block title %}Wanted persons{% endblock %}
+
+{% block languageEn %}{% url 'en/wanted' %}{% endblock %}
+{% block languageRu %}{% url 'ru/wanted' %}{% endblock %}
+
+{% block languageEnSidebar %}{% url 'en/wanted' %}{% endblock %}
+{% block languageRuSidebar %}{% url 'ru/wanted' %}{% endblock %}
+{% block content %}
+    <div class="container wanted">
+        <form action="" method="post" class="wanted-add-content shown" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Full name" value="{{ object.name }}">
+            <input type="text" name="age" placeholder="Approximate age" value="{{ object.age }}">
+            <input type="text" name="briefInfo" placeholder="Brief information" value="{{ object.briefInfo }}">
+            <textarea type="text" name="detailInfo" placeholder="Detailed description">{{ object.detailInfo }}</textarea>
+            <button type="submit">Edit request</button>
+        </form>
+    </div>
+{% endblock %}
