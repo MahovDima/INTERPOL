@@ -44,6 +44,9 @@ class wantedRuView(ListView):
     model = WantedPersons
     template_name = 'interpol/wantedRu.html'
 
+class countiesView(TemplateView):
+    template_name = 'interpol/countries.html'
+
 class requestView(ListView):
     model = WantedPersons
     template_name = 'interpol/request.html'

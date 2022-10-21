@@ -11,6 +11,22 @@ const password1 = document.getElementById('signup_password1');
 const password2 = document.getElementById('signup_password2');
 const wantedList = document.querySelectorAll('.wanted-item');
 const wantedAddForm = document.querySelector('.wanted-add-content');
+const loadScreen = document.querySelector('.loading');
+
+window.addEventListener('scroll',()=>{
+    console.log(window.pageYOffset)
+    let posTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+    if(posTop > 200){
+        header.style.cssText = 'position: fixed; height:80px;'
+        logo.style.cssText = 'opacity: 0; width: 0;';
+        body.style.cssText = 'padding-top: 130px ;'
+    }
+    else{
+        header.style.cssText = 'position: relative; height:130px;'
+        logo.style.cssText = 'opacity: 1; width: auto;';
+        body.style.cssText = 'padding-top: 0 ;'
+    }
+})
 
 const ageChanger = (value) =>{
     age.value = value;
@@ -38,13 +54,14 @@ const openPopup = (evt) =>{
         })
     }
     sidebar.classList.remove('shown');
+    body.classList.add('fixed');
 }
 
 const closePopup = () =>{
     popups.forEach(pop => {
         pop.classList.remove('shown');
     });
-    body.style.position = 'relative';
+    body.classList.remove('fixed');
 }
 
 validationReset = () =>{
@@ -56,11 +73,13 @@ validationReset = () =>{
 const signup = (btn) =>{
     if(password1.value != password2.value){
         document.querySelector('.signUp-popup form p').textContent = 'Пароли не совпадают';
-        password1.classList.add('wrong')
-        password2.classList.add('wrong')
+        password1.classList.remove('wrong');
+        password2.classList.remove('wrong');
+        password1.classList.add('wrong');
+        password2.classList.add('wrong');
     }
     else{
-        btn.parentNode.submit()
+        btn.parentNode.submit();
     }
 }
 
@@ -83,7 +102,7 @@ const closeWantedPopup = (evt) =>{
 
 const openSidebar = () =>{
     sidebar.classList.add('shown');
-    body.style.position = 'fixed'
+    body.classList.add('fixed');
 }
 
 const closeSidebar = (evt) =>{
@@ -93,24 +112,18 @@ const closeSidebar = (evt) =>{
     if(evt.target == sidebar){
         if(evt.target.classList.contains('sidebar'))
         sidebar.classList.remove('shown') ;
-        body.style.position = 'relative';
+        body.classList.remove('fixed');
     }
 }
 
-window.addEventListener('scroll',()=>{
-    let posTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
-    if(posTop > 200){
-        header.style.cssText = 'position: fixed; height:80px;'
-        logo.style.cssText = 'opacity: 0; width: 0;';
-        body.style.cssText = 'padding-top: 130px ;'
-    }
-    else{
-        header.style.cssText = 'position: relative; height:130px;'
-        logo.style.cssText = 'opacity: 1; width: auto;';
-        body.style.cssText = 'padding-top: 0 ;'
-    }
-})
+window.addEventListener('DOMContentLoaded', ()=>{
 
-window.addEventListener('DOMContentLoaded',()=>{
-    
-})
+    setTimeout(()=>{
+        if(loadScreen){
+            loadScreen.classList.add('hidden');
+        }
+
+    }, 2000);
+});
+
+
