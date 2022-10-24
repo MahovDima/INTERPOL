@@ -12,6 +12,15 @@ const password2 = document.getElementById('signup_password2');
 const wantedList = document.querySelectorAll('.wanted-item');
 const wantedAddForm = document.querySelector('.wanted-add-content');
 const loadScreen = document.querySelector('.loading');
+const commentsBtn = document.querySelectorAll('.comments button');
+
+commentsBtn.forEach(btn =>{
+    btn.addEventListener('click', ()=>{
+        btn.parentNode.classList.toggle('showed');
+    });
+});
+
+
 
 window.addEventListener('scroll',()=>{
     console.log(window.pageYOffset)
@@ -87,6 +96,7 @@ wantedList.forEach(wanted => {
     wanted.addEventListener('click', (evt)=>{
         if(!evt.target.classList.contains('close-button')){
             wanted.classList.add('popup')
+            body.classList.add('fixed');
         }
     })
 });
@@ -97,7 +107,8 @@ const wantedAdd = (evt) =>{
 }
 
 const closeWantedPopup = (evt) =>{
-    evt.target.parentNode.parentNode.classList.remove('popup')
+    evt.target.parentNode.parentNode.classList.remove('popup');
+    body.classList.remove('fixed');
 }
 
 const openSidebar = () =>{
@@ -116,6 +127,8 @@ const closeSidebar = (evt) =>{
     }
 }
 
+
+
 window.addEventListener('DOMContentLoaded', ()=>{
 
     setTimeout(()=>{
@@ -123,7 +136,7 @@ window.addEventListener('DOMContentLoaded', ()=>{
             loadScreen.classList.add('hidden');
         }
 
-    }, 2000);
+    }, 100);
 });
 
 

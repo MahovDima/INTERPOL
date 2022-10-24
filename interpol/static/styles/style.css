@@ -956,10 +956,65 @@ html.dark .menu{
 .wanted-item.popup .wanted-content{
     position: relative;
     margin: auto;
+    display: flex;
+    flex-direction: column;
     width: 60%;
     height: 80%;
     padding: 50px 20px 10px 20px;
     background-color: white;
+    overflow-y: scroll;
+}
+
+.wanted-item .wanted-content .comments{
+    display: none;
+}
+
+.wanted-item.popup .wanted-content .comments{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px blue solid;
+    height: 10%;
+    width: 90%;
+    margin: 0 auto;
+    flex: 0 0 auto;
+    transition: .3s;
+    text-align: left;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.wanted-item.popup .wanted-content .comments span{
+    margin-bottom: 10px;
+}
+
+.wanted-item.popup .wanted-content .comments li span{
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.wanted-item.popup .wanted-content .comments.showed{
+    height: 40%;
+    overflow-y: scroll;
+}
+
+.wanted-item.popup .wanted-content .comments button{
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    transform: rotate(180deg);
+    transition: .3s;
+}
+
+.wanted-item.popup .wanted-content .comments.showed button{
+    transform: rotate(0);
+}
+
+.wanted-item.popup .wanted-content .content{
+    flex: 1 0 auto;
 }
 
 .wanted-item.popup .wanted-content p{
