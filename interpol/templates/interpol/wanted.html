@@ -17,7 +17,7 @@
         {% if user.post == 'Administrator' or user.post == 'Director' %}
         <h2>Requests for wanted persons</h2>
         <a href="{% url 'en/request' %}" type="button">View requests</a>
-        {% elif user.post == 'User' %}
+        {% elif user.post != 'User' and user.is_authenticated %}
         <h2>You can file a wanted person and INTERPOL helps you with it</h2>
         <button onclick="wantedAdd(event)" class="wanted-add" type="button">File a wanted list</button>
         <form action="{% url 'wanted' %}" method="post" class="wanted-add-content" enctype="multipart/form-data">
@@ -51,7 +51,7 @@
                     </div>
                     <div class="comments">
                         <button><svg enable-background="new 0 0 50 50" height="50px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="50px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon points="47.25,15 45.164,12.914 25,33.078 4.836,12.914 2.75,15 25,37.25 "/></svg></button>
-                        <span>Комментарии</span>
+                        <span>Comments</span>
                         <ul>
                             <li>
                                 <span>Артём Валенцев</span>
@@ -59,10 +59,12 @@
                             </li>
                         </ul>
                     </div>
+                    {% if user.is_authenticated %}
                     <form action="" method="post">
-                            <input type="text" placeholder="Введите комментарий">
-                            <button type="button">Отправить</button>
+                            <input type="text" placeholder="Enter comment">
+                            <button type="button">Send</button>
                     </form>
+                    {% endif %}
                 </div>
             </li>
             {% endif %}

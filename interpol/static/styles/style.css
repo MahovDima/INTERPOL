@@ -11,7 +11,8 @@
 }
 
 html.dark *{
-    color: #0084ff;
+    color: #0084ff !important;
+    border-color: #0084ff !important;
 }
 
 *::-webkit-scrollbar {
@@ -32,7 +33,7 @@ html.dark body{
 }
 
 html.dark p{
-    color: #fff;
+    color: #fff !important;
 }
 
 html.dark header .logo .st0{
@@ -969,11 +970,39 @@ html.dark .menu{
     display: none;
 }
 
+.wanted-item .wanted-content form{
+    display: none;
+}
+
+.wanted-item.popup .wanted-content form{
+    display: flex;
+    gap: 20px;
+    background: transparent;
+    width: 90%;
+    margin: 0 auto;
+    padding: 5px 0;
+    justify-content: space-between;
+}
+
+.wanted-item.popup .wanted-content form input{
+    width: 85%;
+    outline: none;
+    padding: 5px;
+    border: 1px #00467F solid;
+}
+
+.wanted-item.popup .wanted-content form button{
+    border: 1px #00467f solid;
+    background: transparent;
+    cursor: pointer;
+    padding: 10px;
+}
+
 .wanted-item.popup .wanted-content .comments{
     position: relative;
     display: flex;
     flex-direction: column;
-    border: 1px blue solid;
+    border: 1px #00467F solid;
     height: 10%;
     width: 90%;
     margin: 0 auto;
@@ -982,6 +1011,10 @@ html.dark .menu{
     text-align: left;
     padding: 5px;
     overflow: hidden;
+}
+
+html.dark .wanted-item.popup .wanted-content .comments svg{
+    fill: white;
 }
 
 .wanted-item.popup .wanted-content .comments span{

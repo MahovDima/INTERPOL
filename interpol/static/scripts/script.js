@@ -20,8 +20,6 @@ commentsBtn.forEach(btn =>{
     });
 });
 
-
-
 window.addEventListener('scroll',()=>{
     console.log(window.pageYOffset)
     let posTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;

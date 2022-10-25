@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic.edit import ModelFormMixin
-from .models import CustomUser, SecretCodes, WantedPersons
+from .models import CustomUser, SecretCode, WantedPerson
 from django.contrib.auth import authenticate
 from django import forms
 from .forms import CustomUserCreationForm
@@ -30,50 +30,50 @@ class newsRuView(TemplateView):
 
 class profileView(ListView):
     template_name = 'interpol/profile.html'
-    model = SecretCodes
+    model = SecretCode
 
 class profileRuView(ListView):
     template_name = 'interpol/profileRu.html'
-    model = SecretCodes
+    model = SecretCode
 
 class wantedView(ListView):
-    model = WantedPersons
+    model = WantedPerson
     template_name = 'interpol/wanted.html'
 
 class wantedRuView(ListView):
-    model = WantedPersons
+    model = WantedPerson
     template_name = 'interpol/wantedRu.html'
 
 class countiesView(TemplateView):
     template_name = 'interpol/countries.html'
 
 class requestView(ListView):
-    model = WantedPersons
+    model = WantedPerson
     template_name = 'interpol/request.html'
 
 class requestRuView(ListView):
-    model = WantedPersons
+    model = WantedPerson
     template_name = 'interpol/requestRu.html'
 
 def updateRequest(request,pk):
-    requestPerson = WantedPersons.objects.get(pk=pk)
+    requestPerson = WantedPerson.objects.get(pk=pk)
     requestPerson.isPublished = True
     requestPerson.save()
     return HttpResponseRedirect(reverse_lazy('en/request'))
 
 def deleteRequest(request,pk):
-    requestPerson = WantedPersons.objects.get(pk=pk)
+    requestPerson = WantedPerson.objects.get(pk=pk)
     requestPerson.delete()
     return HttpResponseRedirect(reverse_lazy('en/request'))
 
 class editRequest(UpdateView):
-    model = WantedPersons
+    model = WantedPerson
     fields = ['name', 'age', 'briefInfo', 'detailInfo']
     template_name = 'interpol/request_edit.html'
     success_url = reverse_lazy('en/request')
 
     def post(self, request, *args, **kwargs):
-        person = WantedPersons.objects.get(pk=self.kwargs.get('pk'))
+        person = WantedPerson.objects.get(pk=self.kwargs.get('pk'))
         person.name = request.POST.get('name')
         person.age = request.POST.get('age')
         person.briefInfo = request.POST.get('briefInfo')
@@ -82,11 +82,9 @@ class editRequest(UpdateView):
         return HttpResponseRedirect(reverse_lazy('en/request'))
 
 
-
-
 class WantedPersonsView(CreateView):
     def post(self, request, *args, **kwargs):
-        person = WantedPersons()
+        person = WantedPerson()
         person.name = request.POST.get('name')
         person.age = request.POST.get('age')
         person.briefInfo = request.POST.get('briefInfo')
@@ -101,15 +99,17 @@ class SecretCodesView(CreateView):
         if request.POST.get('codeCount') == '':
             return HttpResponseRedirect(reverse_lazy('en/profile'))
         count = int(request.POST.get('codeCount'))
+        post = int(request.POST.get('post'))
         chars = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
         for c in range(count):
-            secretCode = SecretCodes()
+            secretCode = SecretCode()
             secretCode.code = ''
             for i in range(4):
                 for j in range(4):
                     secretCode.code += chars[random.randint(0, 61)]
                 if i < 3:
                     secretCode.code += '-'
+            secretCode.post = post
             secretCode.save()
         return HttpResponseRedirect(reverse_lazy('en/profile'))
 
@@ -123,9 +123,12 @@ class RegisterView(CreateView):
         age = request.POST.get('age')
         password = request.POST.get('password1')
         password2 = request.POST.get('password2')
-        if(SecretCodes.objects.filter(code=secretCode)):
-            user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post='staffer', email=email, username=username, age=age, password=password)
-            SecretCodes.objects.filter(code=secretCode).delete()
+        if(SecretCode.objects.filter(code=secretCode, post=1)):
+            user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post='Staffer', email=email, username=username, age=age, password=password)
+            SecretCode.objects.filter(code=secretCode).delete()
+        elif(SecretCode.objects.filter(code=secretCode,post=2)):
+            user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post='Police Staffer', email=email, username=username, age=age, password=password)
+            SecretCode.objects.filter(code=secretCode).delete()
         else:
             user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, age=age, password=password)
 

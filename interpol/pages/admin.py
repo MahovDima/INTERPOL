@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, SecretCodes, WantedPersons
+from .models import CustomUser, SecretCode, WantedPerson
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
@@ -10,5 +10,5 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
 
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(SecretCodes)
-admin.site.register(WantedPersons)
+admin.site.register(SecretCode)
+admin.site.register(WantedPerson)

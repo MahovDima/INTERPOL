@@ -6,12 +6,13 @@ class CustomUser(AbstractUser):
     age = models.PositiveIntegerField(default=10)
     post = models.TextField(default='User')
 
-class SecretCodes(models.Model):
+class SecretCode(models.Model):
     code = models.TextField()
+    post = models.PositiveIntegerField()
     def __str__(self):
         return self.code
 
-class WantedPersons(models.Model):
+class WantedPerson(models.Model):
     name = models.TextField()
     age = models.TextField()
     briefInfo = models.TextField()
