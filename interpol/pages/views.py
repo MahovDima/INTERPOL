@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic.edit import ModelFormMixin
-from .models import CustomUser, SecretCode, WantedPerson
+from .models import CustomUser, SecretCode, WantedPerson, Comment
 from django.contrib.auth import authenticate
 from django import forms
 from .forms import CustomUserCreationForm
@@ -92,6 +92,15 @@ class WantedPersonsView(CreateView):
             person.photo = request.FILES['photo']
         person.detailInfo = request.POST.get('detailInfo')
         person.save()
+        return HttpResponseRedirect(reverse_lazy('en/wanted'))
+
+class newComment(CreateView):
+    def post(self, request, *args, **kwargs):
+        newComment = Comment()
+        newComment.text = request.POST.get('comment')
+        newComment.author = request.user.id
+        newComment.post = request.POST.get('id')
+        newComment.save()
         return HttpResponseRedirect(reverse_lazy('en/wanted'))
 
 class SecretCodesView(CreateView):

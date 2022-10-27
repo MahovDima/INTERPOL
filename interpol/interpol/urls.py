@@ -29,6 +29,7 @@ urlpatterns = [
     path('wanted/requests/<int:pk>-delete/', views.deleteRequest, name='request_delete'),
     path('wanted/requests/<int:pk>-edit/', views.editRequest.as_view(), name='request_edit'),
 
+    re_path(r'^comment/', views.newComment.as_view(), name='newComment'),
     re_path(r'^codeGenerate/', views.SecretCodesView.as_view(), name='codeGenerate'),
     re_path(r'^wanted/', views.WantedPersonsView.as_view(), name='wanted'),
 

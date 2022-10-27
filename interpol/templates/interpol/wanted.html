@@ -60,9 +60,11 @@
                         </ul>
                     </div>
                     {% if user.is_authenticated %}
-                    <form action="" method="post">
-                            <input type="text" placeholder="Enter comment">
-                            <button type="button">Send</button>
+                    <form action="{% url 'newComment' %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="comment" placeholder="Enter comment">
+                        <input type="text" name="id" style="width:0; height:0; visibility:hidden;" value="{{wanted.id}}">
+                        <button type="submit">Send</button>
                     </form>
                     {% endif %}
                 </div>
