@@ -34,6 +34,23 @@
                 </tr>
                 {% endfor %}
             </table>
+            <h2>Генератор кодов для полиции</h2>
+            <form action="{% url 'codeGenerate' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="codeCount" autocomplete="off">
+                <input type="text" name="post" style="height: 0px; width: 0; opacity: 0;" value="2">
+                <button type="submit">Generate</button>
+            </form>
+            <table>
+                {% for codes in object_list %}
+                {% if codes.post == 2 %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ codes.code }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
         {% endif %}
         {% else %}
             <div class="sign">

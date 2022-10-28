@@ -30,7 +30,7 @@ class Comment(models.Model):
     id = models.AutoField(primary_key=True)
     text = models.TextField()
     author = models.TextField()
-    post = models.TextField()
+    post = models.IntegerField()
 
     def __str__(self):
         return self.text

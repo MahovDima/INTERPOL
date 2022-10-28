@@ -40,9 +40,19 @@ class wantedView(ListView):
     model = WantedPerson
     template_name = 'interpol/wanted.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(wantedView, self).get_context_data(**kwargs)
+        context['comments'] = Comment.objects.all()
+        return context
+
 class wantedRuView(ListView):
     model = WantedPerson
     template_name = 'interpol/wantedRu.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(wantedRuView, self).get_context_data(**kwargs)
+        context['comments'] = Comment.objects.all()
+        return context
 
 class countiesView(TemplateView):
     template_name = 'interpol/countries.html'
@@ -50,6 +60,7 @@ class countiesView(TemplateView):
 class requestView(ListView):
     model = WantedPerson
     template_name = 'interpol/request.html'
+
 
 class requestRuView(ListView):
     model = WantedPerson
@@ -98,8 +109,8 @@ class newComment(CreateView):
     def post(self, request, *args, **kwargs):
         newComment = Comment()
         newComment.text = request.POST.get('comment')
-        newComment.author = request.user.id
-        newComment.post = request.POST.get('id')
+        newComment.author = request.user.first_name
+        newComment.post = int(request.POST.get('id'))
         newComment.save()
         return HttpResponseRedirect(reverse_lazy('en/wanted'))
 
