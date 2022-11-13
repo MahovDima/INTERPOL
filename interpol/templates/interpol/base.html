@@ -77,19 +77,22 @@
             {% block content %}
             {% endblock %}
         </main>
-        <div class="popup-sign signIn-popup">
+        <div class="popup-sign signIn-popup {% if errorSignIn %}shown{% endif %}">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">CLOSE</button>
-                <form action="{% url 'login' %}" method="post">
+                <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>SIGN IN</span>
-                    <input type="text" name="username" placeholder="login" required>
-                    <input type="password" name="password" placeholder="password" required>
+                    <input {% if errorSignIn %}class="wrong"{% endif %} type="text" name="username" placeholder="login" required>
+                    <input {% if errorSignIn %}class="wrong"{% endif %} type="password" name="password" placeholder="password" required>
                     <button class="submit" type="submit">Enter</button>
+                    <p>
+                        {% if errorSignIn == 'undefinedUser' %}Incorrect login or password{% endif %}
+                    </p>
                 </form>
             </div>
         </div>
-        <div class="popup-sign signUp-popup">
+        <div class="popup-sign signUp-popup {% if errorSignUp %}shown{% endif %}">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">CLOSE</button>
                 <form  action="{% url 'register' %}" method="post">
@@ -99,13 +102,17 @@
                     <input type="text" name="last_name" placeholder="surname" required>
                     <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="age" maxlength="3" required>
                     <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
-                    <input type="email" name="email" placeholder="email" name="email" required>
+                    <input class="{% if errorSignUp == 'email-validation' %}wrong{% endif %}" type="email" name="email" placeholder="email" name="email" required>
                     <input type="text" name="secret code" placeholder="secret code(not necessary)">
-                    <input type="text" name="username" placeholder="login" required>
-                    <input type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="password" required>
-                    <input type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="password-repeat" required>
-                    <button class="submit" onclick="signup(this)" type="button">Sign up</button>
-                    <p></p>
+                    <input class="{% if errorSignUp == 'username-validation' %}wrong{% endif %}" type="text" name="username" placeholder="login" required>
+                    <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="password" required>
+                    <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="password-repeat" required>
+                    <button class="submit" type="submit">Sign up</button>
+                    <p>
+                        {% if errorSignUp == 'password-validation' %}Passwords don't match{% endif %}
+                        {% if errorSignUp == 'username-validation' %}User with this login is already exist{% endif %}
+                        {% if errorSignUp == 'email-validation' %}User with this email address is already exist{% endif %}
+                    </p>
                 </form>
             </div>
         </div>

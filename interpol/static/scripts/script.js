@@ -21,7 +21,6 @@ commentsBtn.forEach(btn =>{
 });
 
 window.addEventListener('scroll',()=>{
-    console.log(window.pageYOffset)
     let posTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
     if(posTop > 200){
         header.style.cssText = 'position: fixed; height:80px;'
@@ -128,13 +127,9 @@ const closeSidebar = (evt) =>{
 
 
 window.addEventListener('DOMContentLoaded', ()=>{
-
-    setTimeout(()=>{
-        if(loadScreen){
-            loadScreen.classList.add('hidden');
-        }
-
-    }, 100);
+    if(loadScreen){
+        loadScreen.classList.add('hidden');
+    }
 });
 
 

@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
         theme.classList.toggle('dark');
     }
 
-    console.log(savedTheme);
-
     theme.addEventListener('click',()=>{
         html.classList.toggle('dark');
         theme.classList.toggle('dark');

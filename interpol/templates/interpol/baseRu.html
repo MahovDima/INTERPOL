@@ -78,19 +78,22 @@
             {% block content %}
             {% endblock %}
         </main>
-        <div class="popup-sign signIn-popup">
+        <div class="popup-sign signIn-popup {% if errorSignIn %}shown{% endif %}">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">ЗАКРЫТЬ</button>
                 <form action="{% url 'login' %}" method="post">
                     {% csrf_token %}
                     <span>ВХОД</span>
-                    <input type="text" name="username" placeholder="Логин" required>
-                    <input type="password" name="password" placeholder="Пароль" required>
+                    <input {% if errorSignIn %}class="wrong"{% endif %} type="text" name="username" placeholder="Логин" required>
+                    <input {% if errorSignIn %}class="wrong"{% endif %} type="password" name="password" placeholder="Пароль" required>
                     <button class="submit" type="submit">Войти</button>
+                    <p>
+                        {% if errorSignIn == 'undefinedUser' %}Непрвильный логин или пароль{% endif %}
+                    </p>
                 </form>
             </div>
         </div>
-        <div class="popup-sign signUp-popup">
+        <div class="popup-sign signUp-popup {% if errorSignUp %}shown{% endif %}">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">CLOSE</button>
                 <form  action="{% url 'register' %}" method="post">
@@ -103,10 +106,12 @@
                     <input type="email" name="email" placeholder="email" name="email" required>
                     <input type="text" name="secret code" placeholder="Секретный код(не обязательно)">
                     <input type="text" name="username" placeholder="Логин" required>
-                    <input type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="Пароль" required>
-                    <input type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="Повторите пароль" required>
-                    <button class="submit" onclick="signup(this)" type="button">Sign up</button>
-                    <p></p>
+                    <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="Пароль" required>
+                    <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="Повторите пароль" required>
+                    <button class="submit" type="submit">Sign up</button>
+                    <p>
+                        {% if errorSignUp == 'password-validation' %}Пароли не совпадают{% endif %}
+                    </p>
                 </form>
             </div>
         </div>
