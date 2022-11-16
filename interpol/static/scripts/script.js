@@ -23,12 +23,12 @@ commentsBtn.forEach(btn =>{
 window.addEventListener('scroll',()=>{
     let posTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
     if(posTop > 200){
-        header.style.cssText = 'position: fixed; height:80px;'
+        header.classList.add('short')
         logo.style.cssText = 'opacity: 0; width: 0;';
         body.style.cssText = 'padding-top: 130px ;'
     }
     else{
-        header.style.cssText = 'position: relative; height:130px;'
+        header.classList.remove('short')
         logo.style.cssText = 'opacity: 1; width: auto;';
         body.style.cssText = 'padding-top: 0 ;'
     }
