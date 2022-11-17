@@ -81,7 +81,7 @@
         <div class="popup-sign signIn-popup {% if errorSignIn %}shown{% endif %}">
             <div class="popup-content">
                 <button class="close-button" onclick="closePopup()">ЗАКРЫТЬ</button>
-                <form action="{% url 'login' %}" method="post">
+                <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>ВХОД</span>
                     <input {% if errorSignIn %}class="wrong"{% endif %} type="text" name="username" placeholder="Логин" required>
@@ -103,14 +103,16 @@
                     <input type="text" name="last_name" placeholder="Фамилия" required>
                     <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="Возраст" maxlength="3" required>
                     <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
-                    <input type="email" name="email" placeholder="email" name="email" required>
+                    <input class="{% if errorSignUp == 'email-validation' %}wrong{% endif %}" type="email" name="email" placeholder="email" name="email" required>
                     <input type="text" name="secret code" placeholder="Секретный код(не обязательно)">
-                    <input type="text" name="username" placeholder="Логин" required>
+                    <input class="{% if errorSignUp == 'username-validation' %}wrong{% endif %}" type="text" name="username" placeholder="Логин" required>
                     <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="Пароль" required>
                     <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="Повторите пароль" required>
                     <button class="submit" type="submit">Sign up</button>
                     <p>
                         {% if errorSignUp == 'password-validation' %}Пароли не совпадают{% endif %}
+                        {% if errorSignUp == 'username-validation' %}Пользователь с данным логином уже существует{% endif %}
+                        {% if errorSignUp == 'email-validation' %}Пользователь с данной электронной почтой уже существует{% endif %}
                     </p>
                 </form>
             </div>
