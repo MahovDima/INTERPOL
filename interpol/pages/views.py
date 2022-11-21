@@ -223,24 +223,31 @@ class RegisterView(CreateView):
     def post(self, request, *args, **kwargs):
         errors = 0
         get = None
-        if request.POST.get('password2'):
-            first_name = request.POST.get('first_name')
-            last_name = request.POST.get('last_name')
-            email = request.POST.get('email')
-            username = request.POST.get('username')
-            secretCode = request.POST.get('secret code')
-            age = request.POST.get('age')
-            password = request.POST.get('password1')
-            password2 = request.POST.get('password2')
-            if password != password2:
-                errors += 1
-                get = '?errorSignUp=password-validation'
-            if CustomUser.objects.filter(email=email):
-                errors += 1
-                get = '?errorSignUp=email-validation'
-            if CustomUser.objects.filter(username=username):
-                errors += 1
-                get = '?errorSignUp=username-validation'
+        if request.POST.get('password2') or request.POST.get('password2') == '':
+            requiredFields = ['first_name', 'last_name', 'email', 'username', 'age', 'password1']
+            for field in requiredFields:
+                if request.POST[field] == '':
+                    errors += 1
+                    get = '?errorSignUp=empty-field'
+                    break
+            else:
+                first_name = request.POST.get('first_name')
+                last_name = request.POST.get('last_name')
+                email = request.POST.get('email')
+                username = request.POST.get('username')
+                secretCode = request.POST.get('secret code')
+                age = request.POST.get('age')
+                password = request.POST.get('password1')
+                password2 = request.POST.get('password2')
+                if password != password2:
+                    errors += 1
+                    get = '?errorSignUp=password-validation'
+                if CustomUser.objects.filter(email=email):
+                    errors += 1
+                    get = '?errorSignUp=email-validation'
+                if CustomUser.objects.filter(username=username):
+                    errors += 1
+                    get = '?errorSignUp=username-validation'
             if not errors:
                 if SecretCode.objects.filter(code=secretCode, post=1):
                     user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post='Staffer', email=email, username=username, age=age, password=password)
@@ -251,13 +258,19 @@ class RegisterView(CreateView):
                 else:
                     user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, age=age, password=password)
         else:
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
+            requiredFields = ['username', 'password']
+            for field in requiredFields:
+                if request.POST[field] == '':
+                    get = '?errorSignIn=empty-field'
+                    break
             else:
-                get = "?errorSignIn=undefinedUser"
+                username = request.POST.get('username')
+                password = request.POST.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                else:
+                    get = "?errorSignIn=undefinedUser"
 
         if get:
             if '?' in request.META.get('HTTP_REFERER'):

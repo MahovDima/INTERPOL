@@ -226,7 +226,7 @@ html,body{
 body{
     display: flex;
     flex-direction: column;
-    min-width: 100vh;
+    min-width: 100%;
     min-height: 100vh;
 }
 
@@ -1335,6 +1335,38 @@ footer .st0{
     color: red !important;
 }
 
+.password--change{
+    border: 1px solid blue;
+    padding: 20px;
+}
+
+.password--change input{
+    border: none;
+    outline: none;
+    border-bottom: 1px #00467F solid;
+    padding: 5px;
+}
+
+.password--change li{
+    color: red !important;
+    margin-bottom: 10px;
+}
+
+.password--change p::before{
+    content: none;
+}
+
+.password--change button{
+    cursor: pointer;
+    background: none;
+    padding: 10px 20px;
+    transition: .3s;
+}
+
+.password--change button:hover{
+    background: #00467F55;
+}
+
 @media (max-width : 1200px) {
     .nav_items{
         margin-left: 10px;
@@ -1387,10 +1419,6 @@ footer .st0{
 
     .promo h1{
         font-size: 80px;
-    }
-
-    .logo{
-        margin-left: -40px;
     }
 
     header.short .logo{
@@ -1452,6 +1480,7 @@ footer .st0{
         display: none;
     }
     .logo{
+        margin-left: -40px;
         transform: scale(0.7);
     }
     .theme{

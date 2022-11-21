@@ -83,11 +83,12 @@
                 <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>SIGN IN</span>
-                    <input {% if errorSignIn %}class="wrong"{% endif %} type="text" name="username" placeholder="login" required>
-                    <input {% if errorSignIn %}class="wrong"{% endif %} type="password" name="password" placeholder="password" required>
+                    <input {% if errorSignIn %}class="wrong"{% endif %} type="text" name="username" placeholder="login">
+                    <input {% if errorSignIn %}class="wrong"{% endif %} type="password" name="password" placeholder="password">
                     <button class="submit" type="submit">Enter</button>
                     <p>
                         {% if errorSignIn == 'undefinedUser' %}Incorrect login or password{% endif %}
+                        {% if errorSignIn == 'empty-field' %}Not all fields were filled in{% endif %}
                     </p>
                 </form>
             </div>
@@ -98,20 +99,21 @@
                 <form  action="{% url 'register' %}" method="post">
                     {% csrf_token %}
                     <span>SIGN UP</span>
-                    <input type="text" name="first_name" placeholder="name" required>
-                    <input type="text" name="last_name" placeholder="surname" required>
-                    <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="age" maxlength="3" required>
+                    <input type="text" name="first_name" placeholder="name">
+                    <input type="text" name="last_name" placeholder="surname">
+                    <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="age" maxlength="3">
                     <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
-                    <input class="{% if errorSignUp == 'email-validation' %}wrong{% endif %}" type="email" name="email" placeholder="email" name="email" required>
+                    <input class="{% if errorSignUp == 'email-validation' %}wrong{% endif %}" type="email" name="email" placeholder="email" name="email">
                     <input type="text" name="secret code" placeholder="secret code(not necessary)">
-                    <input class="{% if errorSignUp == 'username-validation' %}wrong{% endif %}" type="text" name="username" placeholder="login" required>
-                    <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="password" required>
-                    <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="password-repeat" required>
+                    <input class="{% if errorSignUp == 'username-validation' %}wrong{% endif %}" type="text" name="username" placeholder="login">
+                    <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="password">
+                    <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="password-repeat">
                     <button class="submit" type="submit">Sign up</button>
                     <p>
                         {% if errorSignUp == 'password-validation' %}Passwords don't match{% endif %}
                         {% if errorSignUp == 'username-validation' %}User with this login is already exist{% endif %}
                         {% if errorSignUp == 'email-validation' %}User with this email address is already exist{% endif %}
+                        {% if errorSignUp == 'empty-field' %}Not all fields were filled in{% endif %}
                     </p>
                 </form>
             </div>
@@ -137,7 +139,7 @@
                 </nav>
                 <ul class="language">
                     <li>
-                        <a href={% block languageEnSidebar %}{% endblock %}">EN</a>
+                        <a href="{% block languageEnSidebar %}{% endblock %}">EN</a>
                     </li>
                     <li>
                         <a href="{% block languageRuSidebar %}{% endblock %}">RU</a>
