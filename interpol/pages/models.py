@@ -6,6 +6,7 @@ class CustomUser(AbstractUser):
     id = models.AutoField(primary_key=True)
     age = models.PositiveIntegerField(default=10)
     post = models.TextField(default='User')
+    warnings = models.PositiveIntegerField(default=0)
 
 class SecretCode(models.Model):
     id = models.AutoField(primary_key=True)

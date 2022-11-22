@@ -10,7 +10,7 @@
 {% block languageEnSidebar %}{% url 'en/request' %}{% endblock %}
 {% block languageRuSidebar %}{% url 'ru/request' %}{% endblock %}
 {% block content %}
-    {% if user.post == 'Administrator' or user.post == 'Director' %}
+    {% if user.post == 'Administrator' or user.post == 'Director' or user.post == 'Staffer'%}
     <section class="container promo">
         <h1>Заявки на розыск</h1>
     </section>
@@ -31,7 +31,7 @@
                     <p class="short-description">{{ wanted.briefInfo }} </p>
                     <p>{{ wanted.detailInfo }}</p>
                     <div class="submit-buttons">
-                        <a href="{% url 'request_add' wanted.pk %}">Submit</a> | <a href="{% url 'request_edit' wanted.pk %}">Edit</a> | <a href="{% url 'request_delete' wanted.pk %}">Reject</a>
+                        <a href="{% url 'request_add' wanted.pk %}">Submit</a>  <a href="{% url 'request_edit' wanted.pk %}">Edit</a> | <a href="{% url 'request_delete' wanted.pk %}">Reject</a>
                     </div>
                 </div>
             </li>

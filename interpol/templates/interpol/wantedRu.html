@@ -14,7 +14,7 @@
         <h1>Разыскиваемые лица</h1>
     </section>
     <div class="container wanted">
-        {% if user.post == 'Administrator' or user.post == 'Director' %}
+        {% if user.post == 'Administrator' or user.post == 'Director' or user.post == 'Staffer'%}
         <h2>Заявки на поиск людей</h2>
         <a href="{% url 'ru/request' %}" type="button">Посмотреть заявки на розыск</a>
         {% elif user.post == 'User' %}
@@ -68,6 +68,11 @@
                             <input type="text" placeholder="Введите комментарий">
                             <button type="button">Отправить</button>
                     </form>
+                    {% if user.post == 'Administrator' or user.post == 'Director' or user.post == 'Staffer'%}
+                        <div class="submit-buttons">
+                            <a href="{% url 'request_edit' wanted.pk %}">Edit</a> | <a href="{% url 'request_delete' wanted.pk %}">Delete</a>
+                        </div>
+                    {% endif %}
                     {% endif %}
                 </div>
             </li>
