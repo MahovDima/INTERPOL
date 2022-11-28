@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic.edit import ModelFormMixin
-from .models import CustomUser, SecretCode, WantedPerson, Comment
+from .models import CustomUser, SecretCode, WantedPerson, Role
 from django.contrib.auth import authenticate, login
 from django import forms
 from .forms import CustomUserCreationForm
@@ -85,7 +85,6 @@ class newsRuView(TemplateView):
 class profileView(ListView):
     template_name = 'interpol/profile.html'
     model = SecretCode
-
     def get_context_data(self, **kwargs):
         context = super(profileView, self).get_context_data(**kwargs)
         if self.request.GET:
@@ -101,6 +100,7 @@ class profileRuView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(profileRuView, self).get_context_data(**kwargs)
+        context['roles'] = Role.objects.all()
         if self.request.GET:
             if self.request.GET.get('errorSignIn'):
                 context['errorSignIn'] = self.request.GET.get('errorSignIn')
@@ -114,7 +114,6 @@ class wantedView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(wantedView, self).get_context_data(**kwargs)
-        context['comments'] = Comment.objects.all()
         if self.request.GET:
             if self.request.GET.get('errorSignIn'):
                 context['errorSignIn'] = self.request.GET.get('errorSignIn')
@@ -128,7 +127,6 @@ class wantedRuView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(wantedRuView, self).get_context_data(**kwargs)
-        context['comments'] = Comment.objects.all()
         if self.request.GET:
             if self.request.GET.get('errorSignIn'):
                 context['errorSignIn'] = self.request.GET.get('errorSignIn')
@@ -136,8 +134,6 @@ class wantedRuView(ListView):
                 context['errorSignUp'] = self.request.GET.get('errorSignUp')
         return context
 
-class countiesView(TemplateView):
-    template_name = 'interpol/countries.html'
 
 class requestView(ListView):
     model = WantedPerson
@@ -186,16 +182,6 @@ class WantedPersonsView(CreateView):
         person.detailInfo = request.POST.get('detailInfo')
         person.save()
         return HttpResponseRedirect(reverse_lazy('en/wanted'))
-
-class newComment(CreateView):
-    def post(self, request, *args, **kwargs):
-        newComment = Comment()
-        newComment.text = request.POST.get('comment')
-        newComment.author = request.user.first_name
-        newComment.post = int(request.POST.get('id'))
-        newComment.save()
-        return HttpResponseRedirect(reverse_lazy('en/wanted'))
-
 class SecretCodesView(CreateView):
     def post(self, request, *args, **kwargs):
         if request.POST.get('codeCount') == '':
@@ -211,15 +197,11 @@ class SecretCodesView(CreateView):
                     secretCode.code += chars[random.randint(0, 61)]
                 if i < 3:
                     secretCode.code += '-'
-            secretCode.post = post
+            secretCode.role = Role.objects.get(id=post)
             secretCode.save()
         return HttpResponseRedirect(reverse_lazy('en/profile'))
 
 class RegisterView(CreateView):
-    def get_context_data(self, **kwargs):
-        context = super(wantedRuView, self).get_context_data(**kwargs)
-        context['comments'] = Comment.objects.all()
-        return context
     def post(self, request, *args, **kwargs):
         errors = 0
         get = None
@@ -248,15 +230,16 @@ class RegisterView(CreateView):
                 if CustomUser.objects.filter(username=username):
                     errors += 1
                     get = '?errorSignUp=username-validation'
+                if SecretCode.objects.filter(code=secretCode):
+                    errors += 1
+                    get = '?errorSignUp=code-validation'
             if not errors:
                 if SecretCode.objects.filter(code=secretCode, post=1):
-                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post='Staffer', email=email, username=username, age=age, password=password)
+                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post=2, email=email, username=username, age=age, password=password)
                     SecretCode.objects.filter(code=secretCode).delete()
                 elif SecretCode.objects.filter(code=secretCode,post=2):
-                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post='Police Staffer', email=email, username=username, age=age, password=password)
+                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post=3, email=email, username=username, age=age, password=password)
                     SecretCode.objects.filter(code=secretCode).delete()
-                else:
-                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, email=email, username=username, age=age, password=password)
         else:
             requiredFields = ['username', 'password']
             for field in requiredFields:
@@ -269,6 +252,7 @@ class RegisterView(CreateView):
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     login(request, user)
+                    print(type(request.user.role))
                 else:
                     get = "?errorSignIn=undefinedUser"
 
@@ -278,4 +262,3 @@ class RegisterView(CreateView):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER') + get)
         else:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-

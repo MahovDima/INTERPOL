@@ -15,20 +15,19 @@
             <h1>User profile</h1>
             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
             <p>Email Address: <span>{{ user.email }}</span></p>
-            <p>Age: <span>{{ user.age }}</span> years</p>
-            <p>Group: <span>{{ user.post }}</span></p>
+            <p>Group: <span>{{ user.role.role }}</span></p>
             <a href="{% url 'password_change' %}">Change password</a>
-            {% if user.post == 'Administrator' or user.post == 'Director' %}
+            {% if user.role.id == 1 or user.role.id == 2 %}
             <h2>Code generate for staff</h2>
             <form action="{% url 'codeGenerate' %}" method="post">
                 {% csrf_token %}
                 <input type="text" name="codeCount" autocomplete="off">
-                <input type="text" name="post" style="height: 0px; width: 0; opacity: 0;" value="1">
+                <input type="text" name="post" style="height: 0px; width: 0; opacity: 0;" value="4">
                 <button type="submit">Generate</button>
             </form>
             <table>
                 {% for codes in object_list %}
-                {% if codes.post == 1 %}
+                {% if codes.role.id == 4 %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ codes.code }}</td>
@@ -40,12 +39,12 @@
             <form action="{% url 'codeGenerate' %}" method="post">
                 {% csrf_token %}
                 <input type="text" name="codeCount" autocomplete="off">
-                <input type="text" name="post" style="height: 0px; width: 0; opacity: 0;" value="2">
+                <input type="text" name="post" style="height: 0px; width: 0; opacity: 0;" value="3">
                 <button type="submit">Generate</button>
             </form>
             <table>
                 {% for codes in object_list %}
-                {% if codes.post == 2 %}
+                {% if codes.role.id == 3 %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ codes.code }}</td>

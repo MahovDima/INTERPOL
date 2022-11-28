@@ -10,7 +10,7 @@
 {% block languageEnSidebar %}{% url 'en/request' %}{% endblock %}
 {% block languageRuSidebar %}{% url 'ru/request' %}{% endblock %}
 {% block content %}
-    {% if user.post == 'Administrator' or user.post == 'Director' or user.post == 'Staffer'%}
+    {% if user.role.id == 1 or user.role.id == 2 or user.role.id == 4 %}
     <section class="container promo">
         <h1>Wanted requests</h1>
     </section>

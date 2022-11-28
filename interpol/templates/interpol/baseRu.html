@@ -102,8 +102,6 @@
                     <span>Регистрация</span>
                     <input type="text" name="first_name" placeholder="Имя">
                     <input type="text" name="last_name" placeholder="Фамилия">
-                    <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="Возраст" maxlength="3">
-                    <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
                     <input class="{% if errorSignUp == 'email-validation' %}wrong{% endif %}" type="email" name="email" placeholder="email" name="email">
                     <input type="text" name="secret code" placeholder="Секретный код(не обязательно)">
                     <input class="{% if errorSignUp == 'username-validation' %}wrong{% endif %}" type="text" name="username" placeholder="Логин">

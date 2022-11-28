@@ -10,6 +10,7 @@
 {% block languageEnSidebar %}{% url 'en/wanted' %}{% endblock %}
 {% block languageRuSidebar %}{% url 'ru/wanted' %}{% endblock %}
 {% block content %}
+    {% if user.is_authenticated %}
     <div class="container wanted">
         <form action="" method="post" class="wanted-add-content shown" enctype="multipart/form-data">
             {% csrf_token %}
@@ -20,4 +21,5 @@
             <button type="submit">Edit request</button>
         </form>
     </div>
+    {% endif %}
 {% endblock %}

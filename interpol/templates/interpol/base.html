@@ -101,8 +101,6 @@
                     <span>SIGN UP</span>
                     <input type="text" name="first_name" placeholder="name">
                     <input type="text" name="last_name" placeholder="surname">
-                    <input type="text" name="age" onchange="rangeChanger(this.value)" id="age" placeholder="age" maxlength="3">
-                    <input onmousemove="ageChanger(this.value)" id="range" value="10" min="10" max="100" type="range" name="age" >
                     <input class="{% if errorSignUp == 'email-validation' %}wrong{% endif %}" type="email" name="email" placeholder="email" name="email">
                     <input type="text" name="secret code" placeholder="secret code(not necessary)">
                     <input class="{% if errorSignUp == 'username-validation' %}wrong{% endif %}" type="text" name="username" placeholder="login">

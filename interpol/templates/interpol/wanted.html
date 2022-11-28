@@ -14,10 +14,11 @@
         <h1>Wanted persons</h1>
     </section>
     <div class="container wanted">
-        {% if user.post == 'Administrator' or user.post == 'Director' or user.post == 'Staffer'%}
+        {% if user.role.id == 1 or user.role.id == 2 or user.role.id == 4 %}
         <h2>Requests for wanted persons</h2>
         <a href="{% url 'en/request' %}" type="button">View requests</a>
-        {% elif user.post != 'User' and user.is_authenticated %}
+        {% endif %}
+        {% if user.is_authenticated %}
         <h2>You can file a wanted person and INTERPOL helps you with it</h2>
         <button onclick="wantedAdd(event)" class="wanted-add" type="button">File a wanted list</button>
         <form action="{% url 'wanted' %}" method="post" class="wanted-add-content" enctype="multipart/form-data">
@@ -49,32 +50,11 @@
                         <p class="short-description">{{ wanted.briefInfo }} </p>
                         <p>{{ wanted.detailInfo }}</p>
                     </div>
-                    <div class="comments">
-                        <button><svg enable-background="new 0 0 50 50" height="50px" id="Layer_1" version="1.1" viewBox="0 0 50 50" width="50px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><rect fill="none" height="50" width="50"/><polygon points="47.25,15 45.164,12.914 25,33.078 4.836,12.914 2.75,15 25,37.25 "/></svg></button>
-                        <span>Comments</span>
-                        <ul>
-                            {% for item in comments %}
-                                {% if wanted.id == item.post %}
-                                <li>
-                                    <span>{{ item.author }}</span>
-                                    <p>{{ item.text }}</p>
-                                </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% if user.is_authenticated %}
-                    <form action="{% url 'newComment' %}" method="post">
-                        {% csrf_token %}
-                        <input type="text" name="comment" placeholder="Enter comment">
-                        <input type="text" name="id" style="width:0; height:0; visibility:hidden;" value="{{wanted.id}}">
-                        <button type="submit">Send</button>
-                    </form>
-                    {% if user.post == 'Administrator' or user.post == 'Director' or user.post == 'Staffer'%}
+
+                    {% if user.role.id == 1 or user.role.id == 2 or user.role.id == 4 %}
                         <div class="submit-buttons">
                             <a href="{% url 'request_edit' wanted.pk %}">Edit</a> | <a href="{% url 'request_delete' wanted.pk %}">Delete</a>
                         </div>
-                    {% endif %}
                     {% endif %}
                 </div>
             </li>
