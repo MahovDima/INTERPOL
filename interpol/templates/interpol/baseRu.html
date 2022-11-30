@@ -103,7 +103,7 @@
                     <input type="text" name="first_name" placeholder="Имя">
                     <input type="text" name="last_name" placeholder="Фамилия">
                     <input class="{% if errorSignUp == 'email-validation' %}wrong{% endif %}" type="email" name="email" placeholder="email" name="email">
-                    <input type="text" name="secret code" placeholder="Секретный код(не обязательно)">
+                    <input class="{% if errorSignUp == 'code-validation' %}wrong{% endif %}" type="text" name="secret code" placeholder="Секретный код(не обязательно)">
                     <input class="{% if errorSignUp == 'username-validation' %}wrong{% endif %}" type="text" name="username" placeholder="Логин">
                     <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="Пароль">
                     <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="Повторите пароль">
@@ -113,6 +113,7 @@
                         {% if errorSignUp == 'username-validation' %}Пользователь с данным логином уже существует{% endif %}
                         {% if errorSignUp == 'email-validation' %}Пользователь с данной электронной почтой уже существует{% endif %}
                         {% if errorSignUp == 'empty-field' %}Не все поля были заполнены{% endif %}
+                        {% if errorSignup == 'code-validation' %}Введён неверный код{% endif %}
                     </p>
                 </form>
             </div>

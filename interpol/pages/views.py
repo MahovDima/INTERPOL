@@ -206,7 +206,7 @@ class RegisterView(CreateView):
         errors = 0
         get = None
         if request.POST.get('password2') or request.POST.get('password2') == '':
-            requiredFields = ['first_name', 'last_name', 'email', 'username', 'age', 'password1']
+            requiredFields = ['first_name', 'last_name', 'email', 'username', 'password1']
             for field in requiredFields:
                 if request.POST[field] == '':
                     errors += 1
@@ -218,7 +218,6 @@ class RegisterView(CreateView):
                 email = request.POST.get('email')
                 username = request.POST.get('username')
                 secretCode = request.POST.get('secret code')
-                age = request.POST.get('age')
                 password = request.POST.get('password1')
                 password2 = request.POST.get('password2')
                 if password != password2:
@@ -230,16 +229,18 @@ class RegisterView(CreateView):
                 if CustomUser.objects.filter(username=username):
                     errors += 1
                     get = '?errorSignUp=username-validation'
-                if SecretCode.objects.filter(code=secretCode):
+                if not SecretCode.objects.filter(code=secretCode):
                     errors += 1
                     get = '?errorSignUp=code-validation'
             if not errors:
-                if SecretCode.objects.filter(code=secretCode, post=1):
-                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post=2, email=email, username=username, age=age, password=password)
+                if SecretCode.objects.filter(code=secretCode, role=Role.objects.get(role='Interpol staff')):
+                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, role=Role.objects.get(id=4), email=email, username=username, password=password)
                     SecretCode.objects.filter(code=secretCode).delete()
-                elif SecretCode.objects.filter(code=secretCode,post=2):
-                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, post=3, email=email, username=username, age=age, password=password)
+                elif SecretCode.objects.filter(code=secretCode,role=Role.objects.get(role='police staff')):
+                    user = CustomUser.objects.create_user(first_name=first_name, last_name=last_name, role=Role.objects.get(id=3), email=email, username=username, password=password)
                     SecretCode.objects.filter(code=secretCode).delete()
+                else:
+                    print("нет")
         else:
             requiredFields = ['username', 'password']
             for field in requiredFields:
@@ -261,4 +262,6 @@ class RegisterView(CreateView):
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER').split('?', 1)[0] + get)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER') + get)
         else:
+            if '?' in request.META.get('HTTP_REFERER'):
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER').split('?', 1)[0])
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

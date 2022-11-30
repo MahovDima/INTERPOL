@@ -102,16 +102,17 @@
                     <input type="text" name="first_name" placeholder="name">
                     <input type="text" name="last_name" placeholder="surname">
                     <input class="{% if errorSignUp == 'email-validation' %}wrong{% endif %}" type="email" name="email" placeholder="email" name="email">
-                    <input type="text" name="secret code" placeholder="secret code(not necessary)">
+                    <input class="{% if errorSignUp == 'code-validation' %}wrong{% endif %}" type="text" name="secret code" placeholder="secret code">
                     <input class="{% if errorSignUp == 'username-validation' %}wrong{% endif %}" type="text" name="username" placeholder="login">
                     <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password1" onchange="validationReset()" id="signup_password1" placeholder="password">
                     <input class="{% if errorSignUp == 'password-validation' %}wrong{% endif %}" type="password" name="password2" onchange="validationReset()" id="signup_password2" placeholder="password-repeat">
                     <button class="submit" type="submit">Sign up</button>
                     <p>
-                        {% if errorSignUp == 'password-validation' %}Passwords don't match{% endif %}
-                        {% if errorSignUp == 'username-validation' %}User with this login is already exist{% endif %}
-                        {% if errorSignUp == 'email-validation' %}User with this email address is already exist{% endif %}
-                        {% if errorSignUp == 'empty-field' %}Not all fields were filled in{% endif %}
+                        {% if errorSignUp == 'password-validation' %} Passwords don't match {% endif %}
+                        {% if errorSignUp == 'username-validation' %} User with this login is already exist {% endif %}
+                        {% if errorSignUp == 'email-validation' %} User with this email address is already exist {% endif %}
+                        {% if errorSignUp == 'empty-field' %} Not all fields were filled in {% endif %}
+                        {% if errorSignUp == 'code-validation' %} Invalid code entered {% endif %}
                     </p>
                 </form>
             </div>
