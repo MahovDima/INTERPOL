@@ -176,12 +176,12 @@ class editRequest(UpdateView):
         return context
 
     model = WantedPerson
-    fields = ['name', 'age', 'briefInfo', 'detailInfo']
+    fields = ['name', 'age', 'photo', 'briefInfo', 'detailInfo']
     template_name = 'interpol/request_edit.html'
     success_url = reverse_lazy('en/request')
 
     def post(self, request, *args, **kwargs):
-        get = 0
+        get = None
         requiredFields = ['name', 'age', 'briefInfo']
         for field in requiredFields:
             if request.POST[field] == '':
@@ -192,6 +192,8 @@ class editRequest(UpdateView):
             person.name = request.POST.get('name')
             person.age = request.POST.get('age')
             person.briefInfo = request.POST.get('briefInfo')
+            if 'photo' in request.FILES:
+                person.photo = request.FILES['photo']
             person.detailInfo = request.POST.get('detailInfo')
             person.save()
         if get:
@@ -204,6 +206,7 @@ class editRequest(UpdateView):
 
 class WantedPersonsView(CreateView):
     def post(self, request, *args, **kwargs):
+        get = None
         requiredFields = ['name', 'age', 'briefInfo']
         for field in requiredFields:
             if request.POST[field] == '':
@@ -229,7 +232,7 @@ class WantedPersonsView(CreateView):
 class SecretCodesView(CreateView):
     def post(self, request, *args, **kwargs):
         errors = 0
-        get = 0
+        get = None
         if request.POST.get('codeCount') == '' and request.POST.get('role') == '4':
             errors += 1
             get = '?errorCode=staff-empty-field'
