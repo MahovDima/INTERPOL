@@ -18,10 +18,10 @@
         <h2>Requests for wanted persons</h2>
         <a href="{% url 'en/request' %}" type="button">View requests</a>
         {% endif %}
-        {% if user.is_authenticated %}
+        {% if user.role.id == 3 %}
         <h2>You can file a wanted person and INTERPOL helps you with it</h2>
-        <button onclick="wantedAdd(event)" class="wanted-add" type="button">File a wanted list</button>
-        <form action="{% url 'wanted' %}" method="post" class="wanted-add-content" enctype="multipart/form-data">
+        <button onclick="wantedAdd(event)" class="wanted-add {% if errorWanted %}shown{% endif %}" type="button">File a wanted list</button>
+        <form action="{% url 'wanted' %}" method="post" class="wanted-add-content {% if errorWanted %}shown{% endif %}" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="text" name="name" placeholder="Full name">
             <input type="text" name="age" placeholder="Approximate age">
@@ -31,6 +31,9 @@
             <input id="photo" name="photo" accept="image/*" type="file">
             <textarea type="text" name="detailInfo" placeholder="Detailed description"></textarea>
             <button type="submit">Sent request</button>
+            <p>
+                {% if errorWanted == 'empty-field' %}Не все поля заполнены{% endif %}
+            </p>
         </form>
         {% endif %}
         <h2>Wanted persons list</h2>

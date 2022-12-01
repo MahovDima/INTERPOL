@@ -21,9 +21,13 @@
             <h2>Code generate for staff</h2>
             <form action="{% url 'codeGenerate' %}" method="post">
                 {% csrf_token %}
-                <input type="text" name="codeCount" autocomplete="off">
-                <input type="text" name="post" style="height: 0px; width: 0; opacity: 0;" value="4">
+                <input class="{% if errorCode == 'staff-empty-field' or errorCode == 'staff-value-error' %}wrong{% endif %}" type="text" name="codeCount" autocomplete="off">
+                <input type="text" name="role" style="height: 0px; width: 0; opacity: 0;" value="4">
                 <button type="submit">Generate</button>
+                <p>
+                    {% if errorCode == 'staff-empty-field' %}The field is not filled{% endif %}
+                    {% if errorCode == 'staff-value-error' %}Field entered incorrectly{% endif %}
+                </p>
             </form>
             <table>
                 {% for codes in object_list %}
@@ -38,9 +42,13 @@
             <h2>Code generate for Police</h2>
             <form action="{% url 'codeGenerate' %}" method="post">
                 {% csrf_token %}
-                <input type="text" name="codeCount" autocomplete="off">
-                <input type="text" name="post" style="height: 0px; width: 0; opacity: 0;" value="3">
+                <input class="{% if errorCode == 'police-empty-field' or errorCode == 'police-value-error' %}wrong{% endif %}" type="text" name="codeCount" autocomplete="off">
+                <input type="text" name="role" style="height: 0px; width: 0; opacity: 0;" value="3">
                 <button type="submit">Generate</button>
+                <p>
+                    {% if errorCode == 'police-empty-field' %}The field is not filled{% endif %}
+                    {% if errorCode == 'police-value-error' %}Field entered incorrectly{% endif %}
+                </p>
             </form>
             <table>
                 {% for codes in object_list %}

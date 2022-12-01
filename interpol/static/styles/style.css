@@ -482,6 +482,10 @@ html.dark .menu{
     margin-right: 10px;
 }
 
+.container form p::before{
+    content: '';
+}
+
 .container img{
     width: 80%;
     align-self: center;
@@ -721,12 +725,12 @@ section.container a::before{
     opacity: 1;
 }
 
-.popup-content form p{
-    color: red !important;
+form p{
+    color: #f00 !important;
     text-align: center;
 }
 
-.popup-content form input.wrong{
+form input.wrong{
     border-bottom: 1px solid red !important;
     animation: wrong .5s ease-in-out;
 }
@@ -815,7 +819,7 @@ section.container a::before{
 }
 
 .wanted .wanted-add-content.shown{
-    height: 400px;
+    height: 500px;
     opacity: 1;
     transition: opacity 0s, height .5s;
 }
@@ -1213,6 +1217,11 @@ html.dark .wanted-item.popup .wanted-content .comments svg{
     outline: none;
     border: 1px solid #00467F;
     transition: .3s;
+}
+
+.profile form{
+    display: flex;
+    align-items: center;
 }
 
 .profile button:hover{

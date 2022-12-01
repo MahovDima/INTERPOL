@@ -4,13 +4,8 @@
 {% block languageSite %}en{% endblock %}
 {% block title %}Wanted persons{% endblock %}
 
-{% block languageEn %}{% url 'en/wanted' %}{% endblock %}
-{% block languageRu %}{% url 'ru/wanted' %}{% endblock %}
-
-{% block languageEnSidebar %}{% url 'en/wanted' %}{% endblock %}
-{% block languageRuSidebar %}{% url 'ru/wanted' %}{% endblock %}
 {% block content %}
-    {% if user.is_authenticated %}
+    {% if user.role.id == 1 or user.role.id == 2 or user.role.id == 4 %}
     <div class="container wanted">
         <form action="" method="post" class="wanted-add-content shown" enctype="multipart/form-data">
             {% csrf_token %}
@@ -19,6 +14,9 @@
             <input type="text" name="briefInfo" placeholder="Brief information" value="{{ object.briefInfo }}">
             <textarea type="text" name="detailInfo" placeholder="Detailed description">{{ object.detailInfo }}</textarea>
             <button type="submit">Edit request</button>
+            <p>
+                {% if errorWanted == 'empty-field' %}Не все поля заполнены{% endif %}
+            </p>
         </form>
     </div>
     {% endif %}

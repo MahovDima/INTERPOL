@@ -6,7 +6,7 @@ from .models import CustomUser, SecretCode, WantedPerson, Role
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ['id','username', 'first_name', 'last_name', 'email', 'role', 'warnings']
+    list_display = ['id','username', 'first_name', 'last_name', 'email', 'role']
     model = CustomUser
 
 class SecretCodeAdmin(admin.ModelAdmin):

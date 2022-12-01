@@ -5,7 +5,6 @@ from django.db import models
 class CustomUser(AbstractUser):
     id = models.AutoField(primary_key=True)
     role = models.ForeignKey("Role", on_delete=models.CASCADE, default=1)
-    warnings = models.PositiveIntegerField(default=0)
 
 class SecretCode(models.Model):
     id = models.AutoField(primary_key=True)

@@ -92,6 +92,8 @@ class profileView(ListView):
                 context['errorSignIn'] = self.request.GET.get('errorSignIn')
             elif self.request.GET.get('errorSignUp'):
                 context['errorSignUp'] = self.request.GET.get('errorSignUp')
+            elif self.request.GET.get('errorCode'):
+                context['errorCode'] = self.request.GET.get('errorCode')
         return context
 
 class profileRuView(ListView):
@@ -100,12 +102,13 @@ class profileRuView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(profileRuView, self).get_context_data(**kwargs)
-        context['roles'] = Role.objects.all()
         if self.request.GET:
             if self.request.GET.get('errorSignIn'):
                 context['errorSignIn'] = self.request.GET.get('errorSignIn')
             elif self.request.GET.get('errorSignUp'):
                 context['errorSignUp'] = self.request.GET.get('errorSignUp')
+            elif self.request.GET.get('errorCode'):
+                context['errorCode'] = self.request.GET.get('errorCode')
         return context
 
 class wantedView(ListView):
@@ -119,6 +122,8 @@ class wantedView(ListView):
                 context['errorSignIn'] = self.request.GET.get('errorSignIn')
             elif self.request.GET.get('errorSignUp'):
                 context['errorSignUp'] = self.request.GET.get('errorSignUp')
+            elif self.request.GET.get('errorWanted'):
+                context['errorWanted'] = self.request.GET.get('errorWanted')
         return context
 
 class wantedRuView(ListView):
@@ -132,6 +137,8 @@ class wantedRuView(ListView):
                 context['errorSignIn'] = self.request.GET.get('errorSignIn')
             elif self.request.GET.get('errorSignUp'):
                 context['errorSignUp'] = self.request.GET.get('errorSignUp')
+            elif self.request.GET.get('errorWanted'):
+                context['errorWanted'] = self.request.GET.get('errorWanted')
         return context
 
 
@@ -148,65 +155,125 @@ def updateRequest(request,pk):
     requestPerson = WantedPerson.objects.get(pk=pk)
     requestPerson.isPublished = True
     requestPerson.save()
-    return HttpResponseRedirect(reverse_lazy('en/request'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def deleteRequest(request,pk):
     requestPerson = WantedPerson.objects.get(pk=pk)
     requestPerson.delete()
-    return HttpResponseRedirect(reverse_lazy('en/request'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 class editRequest(UpdateView):
+
+    def get_context_data(self, **kwargs):
+        context = super(editRequest, self).get_context_data(**kwargs)
+        if self.request.GET:
+            if self.request.GET.get('errorSignIn'):
+                context['errorSignIn'] = self.request.GET.get('errorSignIn')
+            elif self.request.GET.get('errorSignUp'):
+                context['errorSignUp'] = self.request.GET.get('errorSignUp')
+            elif self.request.GET.get('errorWanted'):
+                context['errorWanted'] = self.request.GET.get('errorWanted')
+        return context
+
     model = WantedPerson
     fields = ['name', 'age', 'briefInfo', 'detailInfo']
     template_name = 'interpol/request_edit.html'
     success_url = reverse_lazy('en/request')
 
     def post(self, request, *args, **kwargs):
-        person = WantedPerson.objects.get(pk=self.kwargs.get('pk'))
-        person.name = request.POST.get('name')
-        person.age = request.POST.get('age')
-        person.briefInfo = request.POST.get('briefInfo')
-        person.detailInfo = request.POST.get('detailInfo')
-        person.save()
-        return HttpResponseRedirect(reverse_lazy('en/request'))
+        get = 0
+        requiredFields = ['name', 'age', 'briefInfo']
+        for field in requiredFields:
+            if request.POST[field] == '':
+                get = '?errorWanted=empty-field'
+                break
+        else:
+            person = WantedPerson.objects.get(pk=self.kwargs.get('pk'))
+            person.name = request.POST.get('name')
+            person.age = request.POST.get('age')
+            person.briefInfo = request.POST.get('briefInfo')
+            person.detailInfo = request.POST.get('detailInfo')
+            person.save()
+        if get:
+            if '?' in request.META.get('HTTP_REFERER'):
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER').split('?', 1)[0] + get)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER') + get)
+        else:
+            return HttpResponseRedirect(reverse_lazy('en/wanted'))
 
 
 class WantedPersonsView(CreateView):
     def post(self, request, *args, **kwargs):
-        person = WantedPerson()
-        person.name = request.POST.get('name')
-        person.age = request.POST.get('age')
-        person.briefInfo = request.POST.get('briefInfo')
-        if 'photo' in request.FILES:
-            person.photo = request.FILES['photo']
-        person.detailInfo = request.POST.get('detailInfo')
-        person.save()
-        return HttpResponseRedirect(reverse_lazy('en/wanted'))
+        requiredFields = ['name', 'age', 'briefInfo']
+        for field in requiredFields:
+            if request.POST[field] == '':
+                get = '?errorWanted=empty-field'
+                break
+        else:
+            person = WantedPerson()
+            person.name = request.POST.get('name')
+            person.age = request.POST.get('age')
+            person.briefInfo = request.POST.get('briefInfo')
+            if 'photo' in request.FILES:
+                person.photo = request.FILES['photo']
+            person.detailInfo = request.POST.get('detailInfo')
+            person.save()
+        if get:
+            if '?' in request.META.get('HTTP_REFERER'):
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER').split('?', 1)[0] + get)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER') + get)
+        else:
+            if '?' in request.META.get('HTTP_REFERER'):
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER').split('?', 1)[0])
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 class SecretCodesView(CreateView):
     def post(self, request, *args, **kwargs):
-        if request.POST.get('codeCount') == '':
-            return HttpResponseRedirect(reverse_lazy('en/profile'))
-        count = int(request.POST.get('codeCount'))
-        post = int(request.POST.get('post'))
-        chars = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
-        for c in range(count):
-            secretCode = SecretCode()
-            secretCode.code = ''
-            for i in range(4):
-                for j in range(4):
-                    secretCode.code += chars[random.randint(0, 61)]
-                if i < 3:
-                    secretCode.code += '-'
-            secretCode.role = Role.objects.get(id=post)
-            secretCode.save()
-        return HttpResponseRedirect(reverse_lazy('en/profile'))
+        errors = 0
+        get = 0
+        if request.POST.get('codeCount') == '' and request.POST.get('role') == '4':
+            errors += 1
+            get = '?errorCode=staff-empty-field'
+        elif request.POST.get('codeCount') == '' and request.POST.get('role') == '3':
+            errors += 1
+            get = '?errorCode=police-empty-field'
+        else:
+            try:
+                count = int(request.POST.get('codeCount'))
+                print(count)
+            except ValueError:
+                errors += 1
+                if request.POST.get('role') == '4':
+                    get = '?errorCode=staff-value-error'
+                elif request.POST.get('role') == '3':
+                    get = '?errorCode=police-value-error'
+            else:
+                role = int(request.POST.get('role'))
+                chars = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
+                for c in range(count):
+                    secretCode = SecretCode()
+                    secretCode.code = ''
+                    for i in range(4):
+                        for j in range(4):
+                            secretCode.code += chars[random.randint(0, 61)]
+                        if i < 3:
+                            secretCode.code += '-'
+                    secretCode.role = Role.objects.get(id=role)
+                    secretCode.save()
+        if get:
+            if '?' in request.META.get('HTTP_REFERER'):
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER').split('?', 1)[0] + get)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER') + get)
+        else:
+            if '?' in request.META.get('HTTP_REFERER'):
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER').split('?', 1)[0])
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 class RegisterView(CreateView):
     def post(self, request, *args, **kwargs):
         errors = 0
         get = None
         if request.POST.get('password2') or request.POST.get('password2') == '':
-            requiredFields = ['first_name', 'last_name', 'email', 'username', 'password1']
+            requiredFields = ['first_name', 'last_name', 'secret code', 'email', 'username', 'password1']
             for field in requiredFields:
                 if request.POST[field] == '':
                     errors += 1
