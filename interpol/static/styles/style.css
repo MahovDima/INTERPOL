@@ -988,7 +988,6 @@ form input.wrong{
     height: 80%;
     padding: 50px 20px 10px 20px;
     background-color: white;
-    overflow-y: scroll;
 }
 
 .wanted-item .wanted-content .comments{

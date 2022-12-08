@@ -242,7 +242,6 @@ class SecretCodesView(CreateView):
         else:
             try:
                 count = int(request.POST.get('codeCount'))
-                print(count)
             except ValueError:
                 errors += 1
                 if request.POST.get('role') == '4':
